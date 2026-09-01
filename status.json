@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-01T23:00:26.8114077Z",
+  "updatedAt": "2026-09-01T23:04:39.6428608Z",
   "taskId": "CX-LOCAL-CONTROL-BUS-30",
   "taskShortId": "Task 30",
   "taskTitle": "Безопасная локальная шина управления",
@@ -9,7 +9,7 @@
   "progress": 55,
   "progressLabel": "55%",
   "progressBasis": "Модельная работа завершена, evidence записан; идёт служебная доставка результата.",
-  "heartbeat": "2026-09-01T23:00:26.8114077Z",
+  "heartbeat": "2026-09-01T23:04:39.6428608Z",
   "nextTaskId": "CX-REMOTE-OBSERVABILITY-38",
   "nextTaskShortId": "Task 38",
   "nextTaskTitle": "Удалённая наблюдаемость и публичный монитор",
