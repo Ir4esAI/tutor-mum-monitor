@@ -30,7 +30,7 @@
   <div class="sub">Публичная версия намеренно не показывает stdout/stderr, raw diff, локальные пути, секреты, ответы учеников или ключи ответов.</div>
 </div>
 <script>
-const STATUS_URL='https://raw.githubusercontent.com/Ir4esAI/tutor-mum-monitor/main/status.json';
+const STATUS_URL='https://raw.githubusercontent.com/Ir4esAI/tutor-mum-monitor/status/status.json';
 let last=null;
 function esc(v){return v==null?'—':String(v)}
 function render(s){last=s;const p=Math.max(0,Math.min(100,Number(s.progress)||0));document.getElementById('state').textContent=esc(s.stateLabel||s.state);document.getElementById('task').textContent=(s.taskShortId?esc(s.taskShortId)+' · ':'')+esc(s.taskTitle);document.getElementById('basis').textContent=esc(s.progressBasis);document.getElementById('fill').style.width=p+'%';document.getElementById('progress').textContent=p+'%';document.getElementById('heartbeat').textContent=esc(s.heartbeat);document.getElementById('next').textContent='Следующая задача: '+(s.nextTaskShortId?esc(s.nextTaskShortId)+' · ':'')+esc(s.nextTaskTitle);document.getElementById('summary').textContent=esc(s.humanSummary);updateAge()}
