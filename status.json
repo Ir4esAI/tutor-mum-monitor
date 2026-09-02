@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-09-02T00:14:58.8745354Z",
+  "updatedAt": "2026-09-02T00:19:54.9326518Z",
   "taskId": "CX-REMOTE-OBSERVABILITY-RECOVERY-39",
   "taskShortId": "Task 39",
   "taskTitle": "Recovery удалённой наблюдаемости",
@@ -8,7 +8,7 @@
   "stateLabel": "HOLD · RECOVERY",
   "progress": null,
   "progressBasis": "Task 39 завершила модельную работу и тесты, но runner остановил доставку из-за local-workspace-dirty. До установки live publisher точный публичный milestone не публикуется.",
-  "heartbeat": "2026-09-02T00:14:58.8745354Z",
+  "heartbeat": "2026-09-02T00:19:54.9326518Z",
   "nextTaskId": "CX-AUTO-REMEDIATION-ORCHESTRATOR-36",
   "nextTaskShortId": "Task 36",
   "nextTaskTitle": "Автоматическое устранение ошибок",
