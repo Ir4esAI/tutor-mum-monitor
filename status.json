@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:07:30Z",
+  "generatedAtUtc": "2026-09-03T12:08:00Z",
   "product": {
     "state": "RUNNING",
-    "label": "ИДЁТ REMOTE-ЭТАП",
+    "label": "КОДОГЕНЕРАЦИЯ / EXECUTING",
     "generation": 72,
     "stage": "remote-supabase-schema-rls-g0072",
     "item": "remote-supabase-schema-rls",
     "attempt": 1,
-    "reason": "Supabase remote roadmap seeded and first item activated",
+    "reason": "EXECUTOR_RUNNING",
     "progress": "11/16",
     "lastCompleted": "runtime-pages-readiness",
-    "acting": "runner",
+    "acting": "provider",
     "needsUserAction": false,
-    "note": "Начат Supabase remote pilot: первый bounded stage — схема базы и RLS. Пароли, service_role и secret keys не публикуются и не нужны от пользователя."
+    "note": "Первый Supabase remote-stage активен: ожидаем candidate с миграцией базы и RLS. На integration branch миграционный файл ещё не появился, поэтому этап не закрыт. Пароли, service_role и secret keys не нужны от пользователя."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
