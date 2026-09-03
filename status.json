@@ -1,1 +1,35 @@
-{}
+{
+  "schemaVersion": 1,
+  "projectId": "tutor-mum",
+  "generatedAtUtc": "2026-09-03T10:36:27Z",
+  "product": {
+    "state": "PAUSE",
+    "label": "АВТОПАУЗА",
+    "generation": 69,
+    "stage": "runtime-pages-readiness-g0069",
+    "item": "runtime-pages-readiness",
+    "attempt": 2,
+    "reason": "provider_cooldown / escalated",
+    "progress": "10/11",
+    "lastCompleted": "teacher-runtime-page",
+    "acting": "system",
+    "needsUserAction": false,
+    "note": "Автовосстановление после provider failure; локальный vertical готов 10/11, текущий gate — runtime-pages-readiness."
+  },
+  "maintenance": {
+    "state": "IN_PROGRESS",
+    "phase": "WINDOWS_PROOF_PENDING",
+    "progress": "7/9",
+    "currentGate": "Obtain Windows PASS proof for terminal-free maintenance Runner",
+    "acting": "chatgpt",
+    "needsUserAction": false,
+    "note": "Antigravity auth/model preflight healthy; terminal-free executor candidate CI passed; нужен Windows PASS proof."
+  },
+  "safety": {
+    "mainRepoPublic": false,
+    "studentDataPublished": false,
+    "stdoutStderrPublished": false,
+    "localPathsPublished": false,
+    "secretsPublished": false
+  }
+}
