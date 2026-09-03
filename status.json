@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T14:08:00Z",
+  "generatedAtUtc": "2026-09-03T14:10:00Z",
   "product": {
     "state": "PAUSE",
-    "label": "PUBLIC STUDENT SMOKE PAGE READY",
+    "label": "BROWSER STUDENT SUBMIT PASS — TEACHER REVIEW PENDING",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "Public GitHub Pages student live smoke page was published for browser testing after backend clean pass",
-    "progress": "16/16 + backend clean pass + public student live smoke page ready + teacher review query ready; browser submit smoke pending",
-    "lastCompleted": "public-student-live-smoke-page-ready",
-    "acting": "user/browser-student-submit-smoke-next",
+    "reason": "User screenshot shows the public student smoke page submitted successfully and displayed an attemptId",
+    "progress": "16/16 + backend clean pass + public student page browser submit pass; teacher review query pending",
+    "lastCompleted": "browser-student-submit-smoke-pass-user-reported",
+    "acting": "user/teacher-review-query-next",
     "needsUserAction": true,
-    "note": "Current MVP invariant: students do not have personal cabinets/accounts/history pages. Public smoke page /student_live_smoke.html is a clean submit-only page. It submits to the proven submit-attempt Edge Function using only Supabase URL + publishable key. Results accumulate in Supabase for teacher review via SUPABASE_TEACHER_RESULTS_REVIEW_QUERY.sql. No service role, secret key, database password, connection string, JWT secret, raw assignment token persistence, localStorage, sessionStorage, indexedDB, or cookies in the student smoke page."
+    "note": "Student-side browser submit is proven without a student account/cabinet: personal link activates hidden technical token, page starts clean, sends one attempt to submit-attempt, and displays only submission status + attemptId. Next step is teacher-side verification: run SUPABASE_TEACHER_RESULTS_REVIEW_QUERY.sql in Supabase SQL Editor and confirm the latest answer appears for teacher review. Do not paste privileged keys into browser/GitHub/public monitor/chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
