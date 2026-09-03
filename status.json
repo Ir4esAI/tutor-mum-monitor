@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T16:31:00Z",
+  "generatedAtUtc": "2026-09-03T16:36:00Z",
   "product": {
-    "state": "PASS",
-    "label": "TEACHER REVIEW UI SMOKE PASS",
+    "state": "PAUSE",
+    "label": "TEACHER RESULTS ENDPOINT NORMALIZED — BROWSER CHECK PENDING",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User reported the public teacher review smoke page loaded results successfully after targeting the actual Supabase function slug quick-processor",
-    "progress": "16/16 + backend clean pass + public student page browser submit pass + teacher SQL review pass + teacher review UI smoke pass",
-    "lastCompleted": "teacher-review-ui-smoke-pass-user-reported",
-    "acting": "chatgpt/normalize-teacher-results-endpoint-next",
-    "needsUserAction": false,
-    "note": "MVP flow is proven end-to-end without student accounts: personal student link opens a clean submit-only page, submit-attempt stores attempts/answers in Supabase, SQL review shows the result, and public teacher review page loads results with a teacher access code stored only in Supabase Secrets. Temporary technical debt remains: the actual Supabase endpoint slug used for teacher review is quick-processor because the function was visually renamed to teacher-results after creation; next step is to create a clean teacher-results function slug and switch the page to it. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "reason": "User reported the newly created teacher-results function works inside Supabase; public teacher review page was switched from temporary quick-processor slug to the normalized teacher-results endpoint",
+    "progress": "16/16 + backend clean pass + public student page browser submit pass + teacher SQL review pass + teacher review UI smoke pass + teacher-results endpoint created; final browser check pending",
+    "lastCompleted": "teacher-results-function-created-user-reported",
+    "acting": "user/final-teacher-results-browser-check-next",
+    "needsUserAction": true,
+    "note": "MVP flow is proven end-to-end without student accounts. The temporary quick-processor fallback worked, and the normalized teacher-results Edge Function has now been proven inside Supabase. Public teacher_review_smoke.html now targets /functions/v1/teacher-results. Next action: reload /teacher_review_smoke.html?v=5, enter the same teacher access code, and confirm answers load through the normalized endpoint. Keep the old quick-processor fallback until this browser check passes; do not paste privileged keys into browser/GitHub/public monitor/chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
