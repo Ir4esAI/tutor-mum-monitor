@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T10:36:27Z",
+  "generatedAtUtc": "2026-09-03T11:25:24Z",
   "product": {
     "state": "PAUSE",
-    "label": "АВТОПАУЗА",
-    "generation": 69,
-    "stage": "runtime-pages-readiness-g0069",
-    "item": "runtime-pages-readiness",
+    "label": "ГРАНИЦА ДОСТИГНУТА",
+    "generation": 71,
+    "stage": "runtime-pages-readiness-g0071",
+    "item": null,
     "attempt": 2,
-    "reason": "provider_cooldown / escalated",
-    "progress": "10/11",
-    "lastCompleted": "teacher-runtime-page",
-    "acting": "system",
-    "needsUserAction": false,
-    "note": "Автовосстановление после provider failure; локальный vertical готов 10/11, текущий gate — runtime-pages-readiness."
+    "reason": "queue_empty after mechanical bypass proof PASS",
+    "progress": "11/11",
+    "lastCompleted": "runtime-pages-readiness",
+    "acting": "user",
+    "needsUserAction": true,
+    "note": "Локальный runtime vertical механически закрыт: student/teacher pages readiness PASS. Дальше нужен архитектурный выбор по remote persistence/deployment; автоматом не продолжаем."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
@@ -23,7 +23,7 @@
     "currentGate": "Obtain Windows PASS proof for terminal-free maintenance Runner",
     "acting": "chatgpt",
     "needsUserAction": false,
-    "note": "Antigravity auth/model preflight healthy; terminal-free executor candidate CI passed; нужен Windows PASS proof."
+    "note": "Antigravity maintenance остаётся отдельным треком: auth/model preflight healthy; terminal-free executor candidate CI passed; следующий gate — Windows PASS proof."
   },
   "safety": {
     "mainRepoPublic": false,
