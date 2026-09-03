@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tutor Mum — live submit smoke</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #687789;
+      --paper: #fffdf8;
+      --cream: #f7f3eb;
+      --teal: #0f766e;
+      --coral: #e76f51;
+      --line: #dce4e3;
+      --ok: #e6f7f5;
+      --warn: #fff8e6;
+      --err: #fee2e2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font: 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 28px 18px 54px;
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 14px 34px rgba(36, 57, 65, 0.07);
+      padding: 24px;
+      margin: 0 0 18px;
+    }
+    .hero {
+      background: var(--teal);
+      color: #fff;
+    }
+    .hero p { color: #d4f3ef; }
+    .eyebrow {
+      color: var(--teal);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero .eyebrow { color: #a9e4dc; }
+    h1, h2 { margin: 0 0 10px; line-height: 1.1; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.04em; }
+    p { margin: 0 0 12px; }
+    .muted { color: var(--muted); }
+    label { display: block; font-weight: 800; margin: 15px 0 6px; }
+    input, textarea {
+      width: 100%;
+      border: 1px solid #cbd9d7;
+      border-radius: 12px;
+      padding: 12px 13px;
+      font: inherit;
+      background: #fff;
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 18px;
+      background: var(--coral);
+      color: #fff;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+    button:disabled { opacity: 0.65; cursor: wait; }
+    .status {
+      padding: 13px 15px;
+      border-radius: 13px;
+      border: 1px solid transparent;
+      margin-top: 16px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .status.ready { background: var(--ok); border-color: #9ed4cc; color: #0f635c; }
+    .status.warn { background: var(--warn); border-color: #fed7aa; color: #9a3412; }
+    .status.error { background: var(--err); border-color: #fca5a5; color: #991b1b; }
+    code {
+      background: rgba(15, 118, 110, 0.08);
+      border-radius: 6px;
+      padding: 2px 5px;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <section class="card hero">
+    <div class="eyebrow">Tutor Mum · student assignment link</div>
+    <h1>Проверка отправки ответа ученика</h1>
+    <p>Это не личный кабинет ученика. Это чистая страница одной попытки: ученик вводит ответ, нажимает отправку, результат уходит маме в Supabase.</p>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Текущая попытка</div>
+    <p class="muted">Страница не читает чужие ответы, не показывает историю ученику и не сохраняет raw token в хранилище браузера. При каждом открытии поля пустые.</p>
+
+    <label for="assignmentToken">Assignment token из персональной ссылки</label>
+    <input id="assignmentToken" name="assignmentToken" autocomplete="off" placeholder="Вставьте token из SQL-результата или персональной ссылки">
+
+    <label for="exerciseId">ID упражнения</label>
+    <input id="exerciseId" name="exerciseId" autocomplete="off" value="smoke-test">
+
+    <label for="answerValue">Ответ ученика</label>
+    <textarea id="answerValue" name="answerValue" autocomplete="off" placeholder="Введите ответ ученика...">hello from student page</textarea>
+
+    <button id="submitButton" type="button">Отправить попытку</button>
+    <div id="statusBox" class="status warn">Готово к тесту. Вставьте assignment token и отправьте попытку.</div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var SUPABASE_URL = 'https://gnlolorqlfaoxmijimjy.supabase.co';
+  var SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_urES_lvatGMrAnYDqSK-aw_otxPMd8_';
+  var FUNCTION_URL = SUPABASE_URL + '/functions/v1/submit-attempt';
+
+  var tokenInput = document.getElementById('assignmentToken');
+  var exerciseInput = document.getElementById('exerciseId');
+  var answerInput = document.getElementById('answerValue');
+  var submitButton = document.getElementById('submitButton');
+  var statusBox = document.getElementById('statusBox');
+
+  function getParam(name) {
+    try { return new URLSearchParams(window.location.search).get(name); }
+    catch (_) { return null; }
+  }
+
+  function setStatus(kind, text) {
+    statusBox.className = 'status ' + kind;
+    statusBox.textContent = text;
+  }
+
+  function makeAttemptId() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      return 'student-live-' + window.crypto.randomUUID();
+    }
+    return 'student-live-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+  }
+
+  function prefillFromLink() {
+    var token = getParam('assignmentToken') || getParam('token');
+    var exerciseId = getParam('exerciseId');
+    if (token) tokenInput.value = token;
+    if (exerciseId) exerciseInput.value = exerciseId;
+  }
+
+  async function submitAttempt() {
+    var assignmentToken = tokenInput.value.trim();
+    var exerciseId = exerciseInput.value.trim();
+    var answerValue = answerInput.value;
+
+    if (!assignmentToken || !exerciseId) {
+      setStatus('error', 'Нужны assignment token и exerciseId.');
+      return;
+    }
+
+    submitButton.disabled = true;
+    setStatus('warn', 'Отправляю попытку в Supabase...');
+
+    try {
+      var response = await fetch(FUNCTION_URL, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_PUBLISHABLE_KEY,
+          Authorization: 'Bearer ' + SUPABASE_PUBLISHABLE_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          assignmentToken: assignmentToken,
+          answers: [
+            { exerciseId: exerciseId, value: answerValue }
+          ],
+          clientAttemptId: makeAttemptId()
+        })
+      });
+
+      var text = await response.text();
+      var body;
+      try { body = text ? JSON.parse(text) : null; } catch (_) { body = text; }
+
+      if (!response.ok) {
+        var message = body && body.error ? body.error : ('HTTP ' + response.status);
+        throw new Error(message);
+      }
+
+      setStatus('ready', 'Попытка отправлена. attemptId: ' + body.attemptId);
+      answerInput.value = '';
+    } catch (error) {
+      setStatus('error', 'Не удалось отправить попытку: ' + error.message + '\nПоля не потеряны, можно исправить и отправить снова.');
+    } finally {
+      submitButton.disabled = false;
+    }
+  }
+
+  prefillFromLink();
+  submitButton.addEventListener('click', submitAttempt);
+}());
+</script>
+</body>
+</html>
