@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:42:05Z",
+  "generatedAtUtc": "2026-09-03T12:48:20Z",
   "product": {
     "state": "RUNNING",
     "label": "NON-ANTIGRAVITY REMOTE-ЭТАП",
-    "generation": 77,
-    "stage": "student-page-remote-submit-g0077",
-    "item": "student-page-remote-submit",
-    "attempt": 0,
-    "reason": "remote-storage-adapter completed; student page remote-submit stage activated and awaiting Runner pickup",
-    "progress": "14/16",
-    "lastCompleted": "remote-storage-adapter",
+    "generation": 78,
+    "stage": "teacher-page-remote-results-g0078",
+    "item": "teacher-page-remote-results",
+    "attempt": 1,
+    "reason": "student page remote submit completed; teacher remote results stage is executing",
+    "progress": "15/16",
+    "lastCompleted": "student-page-remote-submit",
     "acting": "codex/github-actions",
     "needsUserAction": false,
-    "note": "Remote storage adapter уже доставлен и проверен. Следующий bounded stage активирован: student runtime page должна опционально отправлять completed attempts через remote adapter, сохраняя no-login и clean-session инварианты. Antigravity запрещён для обычной product execution."
+    "note": "Student runtime page уже подключена к remote submit через адаптер, сохранив no-login и clean-session. Сейчас выполняется последний bounded stage remote-roadmap: teacher page remote results/history. Antigravity запрещён для обычной product execution."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
