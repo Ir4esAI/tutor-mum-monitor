@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T14:16:00Z",
+  "generatedAtUtc": "2026-09-03T14:23:00Z",
   "product": {
-    "state": "PASS",
-    "label": "STUDENT SUBMIT + TEACHER REVIEW PASS",
+    "state": "PAUSE",
+    "label": "TEACHER REVIEW UI SMOKE READY",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User screenshot shows the teacher results SQL report includes the browser-submitted student attempt",
-    "progress": "16/16 + backend clean pass + public student page browser submit pass + teacher review query pass",
-    "lastCompleted": "student-submit-teacher-review-pass-user-reported",
-    "acting": "chatgpt/teacher-review-ui-next",
-    "needsUserAction": false,
-    "note": "MVP flow is proven end-to-end without student accounts: personal student link opens a clean submit-only page, submit-attempt stores attempts/answers in Supabase, and the teacher-side review query shows the submitted result. Next product layer is a protected teacher review page backed by a read-only Edge Function, not SQL Editor. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "reason": "Teacher review page and read-only teacher-results Edge Function were prepared after SQL teacher review pass",
+    "progress": "16/16 + backend clean pass + public student page browser submit pass + teacher review query pass + teacher review UI smoke ready; function deploy pending",
+    "lastCompleted": "teacher-review-ui-smoke-ready",
+    "acting": "user/deploy-teacher-results-function-next",
+    "needsUserAction": true,
+    "note": "MVP flow is proven end-to-end without student accounts. Next smoke layer is a protected teacher review UI: deploy teacher-results Edge Function, set TEACHER_REVIEW_ACCESS_CODE only inside Supabase Secrets, disable JWT verification for this no-login smoke function, then open /teacher_review_smoke.html and load results with that access code. The public teacher page contains only Supabase URL + publishable key and no service role, secret key, database password, connection string, JWT secret, raw assignment tokens, localStorage, sessionStorage, indexedDB, or cookies."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
