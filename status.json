@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T16:39:00Z",
+  "generatedAtUtc": "2026-09-03T16:50:00Z",
   "product": {
-    "state": "PASS",
-    "label": "TEACHER RESULTS ENDPOINT NORMALIZED PASS",
+    "state": "PAUSE",
+    "label": "TEACHER CORRECTNESS REVIEW READY",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User reported the public teacher review page loaded answers successfully through the normalized teacher-results endpoint",
-    "progress": "16/16 + backend clean pass + public student page browser submit pass + teacher SQL review pass + teacher review UI smoke pass + normalized teacher-results endpoint browser pass",
-    "lastCompleted": "teacher-results-normalized-browser-pass-user-reported",
-    "acting": "chatgpt/teacher-review-v1-next",
-    "needsUserAction": false,
-    "note": "MVP flow is proven end-to-end without student accounts: personal student link opens a clean submit-only page, submit-attempt stores attempts/answers in Supabase, teacher SQL review shows the result, public teacher review page loads results with a teacher access code stored only in Supabase Secrets, and the normalized /functions/v1/teacher-results endpoint now works in browser. The old quick-processor fallback may be deleted after the user confirms no need to keep it as a temporary rollback. Next product step is teacher review v1 with practical filters and checking workflow. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "reason": "Teacher review v1 was corrected to remove feedback/comments and support correctness marking only; student page was prepared to show own reviewed status after refresh",
+    "progress": "16/16 + backend clean pass + public student submit pass + teacher review pass + normalized teacher-results pass + no-feedback correctness review layer ready; deploy/test pending",
+    "lastCompleted": "teacher-correctness-review-layer-ready",
+    "acting": "user/deploy-review-answer-and-student-status-next",
+    "needsUserAction": true,
+    "note": "Current MVP invariant: no student cabinets/accounts/history pages. Teacher review v1 is correctness-only: mom marks answers correct/incorrect, with no written feedback/comment UI. Student page can refresh the same assignment link and load its own attempt review state through student-attempt-status, then highlight answers by pending/correct/incorrect. New Edge Functions to deploy: review-answer and student-attempt-status. Existing proven flow remains PASS. Do not paste privileged keys into browser/GitHub/public monitor/chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
