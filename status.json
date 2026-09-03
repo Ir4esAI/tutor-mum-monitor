@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T13:50:00Z",
+  "generatedAtUtc": "2026-09-03T13:57:00Z",
   "product": {
-    "state": "PASS",
-    "label": "CLEAN SUPABASE SUBMIT PASS",
+    "state": "PAUSE",
+    "label": "STUDENT LIVE SMOKE PAGE READY",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User redeployed the non-diagnostic submit-attempt function and reported submitted:true with attemptId and no debug field",
-    "progress": "16/16 + SQL phase 1 done + Edge Function deployed + grants fixed + clean live roundtrip pass",
-    "lastCompleted": "supabase-clean-submit-pass-user-reported",
-    "acting": "chatgpt/frontend-live-wiring-next",
-    "needsUserAction": false,
-    "note": "Production-like Supabase submit path is proven: assignment token resolved by hash, submit-attempt inserted attempt and answer, and response no longer exposes debug. Next work item is frontend live wiring: connect a student page smoke flow to the live Supabase project using only URL + publishable key, with no privileged keys, no student login, and no raw token persistence."
+    "reason": "Student-side live submit smoke page added after no-student-account product correction",
+    "progress": "16/16 + backend clean pass + student live smoke frontend ready; browser smoke pending",
+    "lastCompleted": "student-live-smoke-page-ready",
+    "acting": "user/browser-student-submit-smoke-next",
+    "needsUserAction": true,
+    "note": "Current MVP invariant: students do not have personal cabinets/accounts/history pages. Student side is a clean submit-only assignment page; results accumulate in Supabase for teacher review. New page product_app/student_live_smoke.html submits to the proven submit-attempt function using only Supabase URL + publishable key. Guard added as npm script test:student-live-smoke-contract. No service role, secret key, database password, connection string, JWT secret, raw assignment token persistence, localStorage, sessionStorage, indexedDB, or cookies in the student smoke page."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
