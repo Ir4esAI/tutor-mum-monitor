@@ -24,11 +24,7 @@
       color: var(--ink);
       font: 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    main {
-      max-width: 840px;
-      margin: 0 auto;
-      padding: 28px 18px 54px;
-    }
+    main { max-width: 840px; margin: 0 auto; padding: 28px 18px 54px; }
     .card {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -37,10 +33,7 @@
       padding: 24px;
       margin: 0 0 18px;
     }
-    .hero {
-      background: var(--teal);
-      color: #fff;
-    }
+    .hero { background: var(--teal); color: #fff; }
     .hero p { color: #d4f3ef; }
     .eyebrow {
       color: var(--teal);
@@ -55,6 +48,8 @@
     h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.04em; }
     p { margin: 0 0 12px; }
     .muted { color: var(--muted); }
+    .technical { display: none; }
+    .technical.visible { display: block; }
     label { display: block; font-weight: 800; margin: 15px 0 6px; }
     input, textarea {
       width: 100%;
@@ -88,27 +83,24 @@
     .status.ready { background: var(--ok); border-color: #9ed4cc; color: #0f635c; }
     .status.warn { background: var(--warn); border-color: #fed7aa; color: #9a3412; }
     .status.error { background: var(--err); border-color: #fca5a5; color: #991b1b; }
-    code {
-      background: rgba(15, 118, 110, 0.08);
-      border-radius: 6px;
-      padding: 2px 5px;
-    }
   </style>
 </head>
 <body>
 <main>
   <section class="card hero">
-    <div class="eyebrow">Tutor Mum · student assignment link</div>
+    <div class="eyebrow">Tutor Mum · personal assignment link</div>
     <h1>Проверка отправки ответа ученика</h1>
-    <p>Это не личный кабинет ученика. Это чистая страница одной попытки: ученик вводит ответ, нажимает отправку, результат уходит маме в Supabase.</p>
+    <p>Это не личный кабинет. Ученик открывает персональную ссылку, вводит ответ и отправляет одну попытку. Результат уходит преподавателю.</p>
   </section>
 
   <section class="card">
     <div class="eyebrow">Текущая попытка</div>
-    <p class="muted">Страница не читает чужие ответы, не показывает историю ученику и не сохраняет raw token в хранилище браузера. При каждом открытии поля пустые.</p>
+    <p id="linkStatus" class="muted">Проверяю персональную ссылку...</p>
 
-    <label for="assignmentToken">Assignment token из персональной ссылки</label>
-    <input id="assignmentToken" name="assignmentToken" autocomplete="off" placeholder="Вставьте token из SQL-результата или персональной ссылки">
+    <div id="technicalTokenBlock" class="technical">
+      <label for="assignmentToken">Техническое поле для smoke-теста</label>
+      <input id="assignmentToken" name="assignmentToken" autocomplete="off" placeholder="Вставьте значение из результата SQL-запроса">
+    </div>
 
     <label for="exerciseId">ID упражнения</label>
     <input id="exerciseId" name="exerciseId" autocomplete="off" value="smoke-test">
@@ -117,7 +109,7 @@
     <textarea id="answerValue" name="answerValue" autocomplete="off" placeholder="Введите ответ ученика...">hello from student page</textarea>
 
     <button id="submitButton" type="button">Отправить попытку</button>
-    <div id="statusBox" class="status warn">Готово к тесту. Вставьте assignment token и отправьте попытку.</div>
+    <div id="statusBox" class="status warn">Готово к тесту. Откройте персональную ссылку и отправьте попытку.</div>
   </section>
 </main>
 
@@ -130,10 +122,13 @@
   var FUNCTION_URL = SUPABASE_URL + '/functions/v1/submit-attempt';
 
   var tokenInput = document.getElementById('assignmentToken');
+  var tokenBlock = document.getElementById('technicalTokenBlock');
+  var linkStatus = document.getElementById('linkStatus');
   var exerciseInput = document.getElementById('exerciseId');
   var answerInput = document.getElementById('answerValue');
   var submitButton = document.getElementById('submitButton');
   var statusBox = document.getElementById('statusBox');
+  var assignmentTokenFromLink = '';
 
   function getParam(name) {
     try { return new URLSearchParams(window.location.search).get(name); }
@@ -153,19 +148,27 @@
   }
 
   function prefillFromLink() {
-    var token = getParam('assignmentToken') || getParam('token');
+    assignmentTokenFromLink = getParam('assignmentToken') || getParam('token') || '';
     var exerciseId = getParam('exerciseId');
-    if (token) tokenInput.value = token;
     if (exerciseId) exerciseInput.value = exerciseId;
+
+    if (assignmentTokenFromLink) {
+      linkStatus.textContent = 'Персональная ссылка активирована. Технический код скрыт; ученик его не вводит вручную.';
+      setStatus('warn', 'Готово к тесту. Введите ответ и нажмите отправку.');
+      return;
+    }
+
+    tokenBlock.className = 'technical visible';
+    linkStatus.textContent = 'Персональная ссылка не содержит технического параметра. Для ручного smoke-теста можно вставить значение из SQL-результата.';
   }
 
   async function submitAttempt() {
-    var assignmentToken = tokenInput.value.trim();
+    var assignmentToken = assignmentTokenFromLink || tokenInput.value.trim();
     var exerciseId = exerciseInput.value.trim();
     var answerValue = answerInput.value;
 
     if (!assignmentToken || !exerciseId) {
-      setStatus('error', 'Нужны assignment token и exerciseId.');
+      setStatus('error', 'Нужна персональная ссылка задания и ID упражнения.');
       return;
     }
 
