@@ -18,7 +18,7 @@
 
   <section class="card">
     <div class="eyebrow">Доступ преподавателя</div>
-    <p class="muted">Код доступа задаётся в Supabase Secrets и не хранится на странице. Для текущего smoke-теста страница вызывает фактический endpoint Supabase: quick-processor.</p>
+    <p class="muted">Код доступа задаётся в Supabase Secrets и не хранится на странице. Страница вызывает правильный endpoint Supabase: teacher-results.</p>
     <label for="teacherAccessCode">Код доступа мамы</label>
     <input id="teacherAccessCode" name="teacherAccessCode" type="password" autocomplete="off" placeholder="Введите код доступа">
     <button id="loadButton" type="button">Показать последние ответы</button>
@@ -34,7 +34,7 @@
 <script>
 (function(){
   'use strict';
-  var FUNCTION_URL='https://gnlolorqlfaoxmijimjy.supabase.co/functions/v1/quick-processor';
+  var FUNCTION_URL='https://gnlolorqlfaoxmijimjy.supabase.co/functions/v1/teacher-results';
   var accessCodeInput=document.getElementById('teacherAccessCode');
   var loadButton=document.getElementById('loadButton');
   var statusBox=document.getElementById('statusBox');
@@ -65,7 +65,7 @@
       renderAttempts(body&&body.attempts);
       setStatus('ready','Ответы загружены. Найдено попыток: '+((body&&body.count)||0));
       accessCodeInput.value='';
-    }catch(error){setStatus('error','Не удалось загрузить ответы: '+error.message+'\nЕсли это снова 404, значит фактический slug функции в Supabase отличается от quick-processor. Если teacher_review_unauthorized — код доступа не совпал. Если server_configuration_error — не задан TEACHER_REVIEW_ACCESS_CODE.')}finally{loadButton.disabled=false}
+    }catch(error){setStatus('error','Не удалось загрузить ответы: '+error.message+'\nЕсли это HTTP 404, значит новая функция teacher-results ещё не развернулась под правильным slug. Если teacher_review_unauthorized — код доступа не совпал. Если server_configuration_error — не задан TEACHER_REVIEW_ACCESS_CODE.')}finally{loadButton.disabled=false}
   }
   loadButton.addEventListener('click',loadResults);
 }());
