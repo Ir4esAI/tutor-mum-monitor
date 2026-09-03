@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:08:00Z",
+  "generatedAtUtc": "2026-09-03T12:32:57Z",
   "product": {
     "state": "RUNNING",
-    "label": "КОДОГЕНЕРАЦИЯ / EXECUTING",
-    "generation": 72,
-    "stage": "remote-supabase-schema-rls-g0072",
-    "item": "remote-supabase-schema-rls",
+    "label": "NON-ANTIGRAVITY REMOTE-ЭТАП",
+    "generation": 75,
+    "stage": "remote-submit-edge-function-g0075",
+    "item": "remote-submit-edge-function",
     "attempt": 1,
-    "reason": "EXECUTOR_RUNNING",
-    "progress": "11/16",
-    "lastCompleted": "runtime-pages-readiness",
-    "acting": "provider",
+    "reason": "Supabase schema/RLS proof PASS; next Edge Function stage activated with Antigravity disallowed",
+    "progress": "12/16",
+    "lastCompleted": "remote-supabase-schema-rls",
+    "acting": "codex/github-actions",
     "needsUserAction": false,
-    "note": "Первый Supabase remote-stage активен: ожидаем candidate с миграцией базы и RLS. На integration branch миграционный файл ещё не появился, поэтому этап не закрыт. Пароли, service_role и secret keys не нужны от пользователя."
+    "note": "Antigravity убран из обычной product execution. Первый Supabase stage закрыт механическим proof PASS; следующий bounded stage — submit-attempt Edge Function без ученического логина и без frontend secrets."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
@@ -23,7 +23,7 @@
     "currentGate": "Obtain Windows PASS proof for terminal-free maintenance Runner",
     "acting": "chatgpt",
     "needsUserAction": false,
-    "note": "Antigravity maintenance остаётся отдельным треком: auth/model preflight healthy; terminal-free executor candidate CI passed; следующий gate — Windows PASS proof."
+    "note": "Antigravity maintenance остаётся отдельным треком: только локальные Windows/UI/browser proof, не обычная product execution."
   },
   "safety": {
     "mainRepoPublic": false,
