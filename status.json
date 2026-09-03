@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:38:57Z",
+  "generatedAtUtc": "2026-09-03T12:42:05Z",
   "product": {
     "state": "RUNNING",
     "label": "NON-ANTIGRAVITY REMOTE-ЭТАП",
-    "generation": 76,
-    "stage": "remote-storage-adapter-g0076",
-    "item": "remote-storage-adapter",
-    "attempt": 2,
-    "reason": "Remote storage adapter is still executing; attempt advanced to 2, no candidate file yet",
-    "progress": "13/16",
-    "lastCompleted": "remote-submit-edge-function",
+    "generation": 77,
+    "stage": "student-page-remote-submit-g0077",
+    "item": "student-page-remote-submit",
+    "attempt": 0,
+    "reason": "remote-storage-adapter completed; student page remote-submit stage activated and awaiting Runner pickup",
+    "progress": "14/16",
+    "lastCompleted": "remote-storage-adapter",
     "acting": "codex/github-actions",
     "needsUserAction": false,
-    "note": "Submit-attempt Edge Function уже доставлена в autonomy-v6. Сейчас Runner выполняет bounded stage remote-storage-adapter: браузерный адаптер должен вызывать Edge Function через publishable client boundary, без frontend secrets и без Antigravity. Файл product_app/remote_storage_adapter.js пока не появился."
+    "note": "Remote storage adapter уже доставлен и проверен. Следующий bounded stage активирован: student runtime page должна опционально отправлять completed attempts через remote adapter, сохраняя no-login и clean-session инварианты. Antigravity запрещён для обычной product execution."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
