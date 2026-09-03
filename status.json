@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:59:00Z",
+  "generatedAtUtc": "2026-09-03T12:59:45Z",
   "product": {
     "state": "PAUSE",
-    "label": "НУЖЕН РУЧНОЙ SUPABASE DEPLOY: SQL PHASE 1",
+    "label": "SQL PHASE 1 ВЫПОЛНЕН",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "Repository-proven remote roadmap completed; next safe step is applying database schema/RLS migration in Supabase SQL Editor",
-    "progress": "16/16 + deploy phase 1 pending",
-    "lastCompleted": "teacher-page-remote-results",
-    "acting": "user/supabase-sql-editor",
+    "reason": "User reported Supabase SQL Editor success for database schema/RLS migration",
+    "progress": "16/16 + deploy phase 1 done; phase 2 pending",
+    "lastCompleted": "supabase-sql-phase-1",
+    "acting": "user/supabase-edge-function-next",
     "needsUserAction": true,
-    "note": "Сначала применяем только migration supabase/migrations/20260903114500_remote_runtime_foundation.sql. Не деплоим Edge Function, не выбираем GitHub repo, не вставляем service role в frontend. После SQL phase 1 проверяем семь runtime tables и RLS."
+    "note": "Database schema/RLS migration has been applied manually. Next controlled step is Edge Function deploy for submit-attempt. Use Supabase Dashboard/Editor only; do not put service role, secret keys, database passwords, connection strings, or JWT secrets into frontend code, GitHub, public monitor, or chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
@@ -23,7 +23,7 @@
     "currentGate": "Obtain Windows PASS proof for terminal-free maintenance Runner",
     "acting": "chatgpt",
     "needsUserAction": false,
-    "note": "Antigravity maintenance остаётся отдельным треком: только локальные Windows/UI/browser proof, не обычная product execution."
+    "note": "Antigravity maintenance remains separate: local Windows/UI/browser proof only, not ordinary product execution."
   },
   "safety": {
     "mainRepoPublic": false,
