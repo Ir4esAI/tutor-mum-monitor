@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T11:25:24Z",
+  "generatedAtUtc": "2026-09-03T12:07:30Z",
   "product": {
-    "state": "PAUSE",
-    "label": "ГРАНИЦА ДОСТИГНУТА",
-    "generation": 71,
-    "stage": "runtime-pages-readiness-g0071",
-    "item": null,
-    "attempt": 2,
-    "reason": "queue_empty after mechanical bypass proof PASS",
-    "progress": "11/11",
+    "state": "RUNNING",
+    "label": "ИДЁТ REMOTE-ЭТАП",
+    "generation": 72,
+    "stage": "remote-supabase-schema-rls-g0072",
+    "item": "remote-supabase-schema-rls",
+    "attempt": 1,
+    "reason": "Supabase remote roadmap seeded and first item activated",
+    "progress": "11/16",
     "lastCompleted": "runtime-pages-readiness",
-    "acting": "user",
-    "needsUserAction": true,
-    "note": "Локальный runtime vertical механически закрыт: student/teacher pages readiness PASS. Дальше нужен архитектурный выбор по remote persistence/deployment; автоматом не продолжаем."
+    "acting": "runner",
+    "needsUserAction": false,
+    "note": "Начат Supabase remote pilot: первый bounded stage — схема базы и RLS. Пароли, service_role и secret keys не публикуются и не нужны от пользователя."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
