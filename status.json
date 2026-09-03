@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:32:57Z",
+  "generatedAtUtc": "2026-09-03T12:37:27Z",
   "product": {
     "state": "RUNNING",
     "label": "NON-ANTIGRAVITY REMOTE-ЭТАП",
-    "generation": 75,
-    "stage": "remote-submit-edge-function-g0075",
-    "item": "remote-submit-edge-function",
+    "generation": 76,
+    "stage": "remote-storage-adapter-g0076",
+    "item": "remote-storage-adapter",
     "attempt": 1,
-    "reason": "Supabase schema/RLS proof PASS; next Edge Function stage activated with Antigravity disallowed",
-    "progress": "12/16",
-    "lastCompleted": "remote-supabase-schema-rls",
+    "reason": "Edge Function stage completed; remote storage adapter is executing",
+    "progress": "13/16",
+    "lastCompleted": "remote-submit-edge-function",
     "acting": "codex/github-actions",
     "needsUserAction": false,
-    "note": "Antigravity убран из обычной product execution. Первый Supabase stage закрыт механическим proof PASS; следующий bounded stage — submit-attempt Edge Function без ученического логина и без frontend secrets."
+    "note": "Submit-attempt Edge Function уже доставлена в autonomy-v6. Сейчас Runner выполняет bounded stage remote-storage-adapter: браузерный адаптер должен вызывать Edge Function через publishable client boundary, без frontend secrets и без Antigravity."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
