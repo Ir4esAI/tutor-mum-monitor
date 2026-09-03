@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T14:53:00Z",
+  "generatedAtUtc": "2026-09-03T16:31:00Z",
   "product": {
-    "state": "PAUSE",
-    "label": "TEACHER REVIEW CORS PATCH READY",
+    "state": "PASS",
+    "label": "TEACHER REVIEW UI SMOKE PASS",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "Teacher review page returned Failed to fetch in browser; request shape was patched to send teacherAccessCode in JSON body instead of a custom header",
-    "progress": "16/16 + backend clean pass + public student page browser submit pass + teacher SQL review pass + teacher review UI CORS patch ready; function redeploy pending",
-    "lastCompleted": "teacher-review-cors-patch-ready",
-    "acting": "user/redeploy-teacher-results-function-next",
-    "needsUserAction": true,
-    "note": "The proven MVP path remains intact: student submit reaches Supabase and SQL teacher review shows the result. Current issue is isolated to the new browser teacher-review UI. Patch removes the custom x-teacher-review-access-code browser header and sends teacherAccessCode in the JSON body. Redeploy teacher-results from the updated dashboard file, keep TEACHER_REVIEW_ACCESS_CODE in Supabase Secrets only, keep Verify JWT disabled, then reload /teacher_review_smoke.html?v=2. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "reason": "User reported the public teacher review smoke page loaded results successfully after targeting the actual Supabase function slug quick-processor",
+    "progress": "16/16 + backend clean pass + public student page browser submit pass + teacher SQL review pass + teacher review UI smoke pass",
+    "lastCompleted": "teacher-review-ui-smoke-pass-user-reported",
+    "acting": "chatgpt/normalize-teacher-results-endpoint-next",
+    "needsUserAction": false,
+    "note": "MVP flow is proven end-to-end without student accounts: personal student link opens a clean submit-only page, submit-attempt stores attempts/answers in Supabase, SQL review shows the result, and public teacher review page loads results with a teacher access code stored only in Supabase Secrets. Temporary technical debt remains: the actual Supabase endpoint slug used for teacher review is quick-processor because the function was visually renamed to teacher-results after creation; next step is to create a clean teacher-results function slug and switch the page to it. Do not paste privileged keys into browser/GitHub/public monitor/chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
