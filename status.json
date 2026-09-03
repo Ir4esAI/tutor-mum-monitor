@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T13:08:00Z",
+  "generatedAtUtc": "2026-09-03T13:37:00Z",
   "product": {
-    "state": "PAUSE",
-    "label": "EDGE FUNCTION SMOKE PASS — НУЖЕН LIVE ROUNDTRIP",
+    "state": "PASS",
+    "label": "SUPABASE LIVE ROUNDTRIP PASS",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User screenshot shows submit-attempt returns invalid_assignment_token for dummy token, which proves function routing/JWT/env/table lookup path is alive",
-    "progress": "16/16 + SQL phase 1 done + Edge Function smoke pass; live roundtrip pending",
-    "lastCompleted": "supabase-edge-function-smoke-pass-user-reported",
-    "acting": "user/supabase-sql-seed-and-function-test",
+    "reason": "User reported submit-attempt live test returned submitted:true with attemptId after service_role grants fix",
+    "progress": "16/16 + SQL phase 1 done + Edge Function deployed + live roundtrip pass",
+    "lastCompleted": "supabase-live-roundtrip-pass-user-reported",
+    "acting": "chatgpt/revert-diagnostic-next",
     "needsUserAction": true,
-    "note": "Next controlled step: run SUPABASE_SMOKE_SEED_PHASE3.sql in SQL Editor, copy only the returned assignment_token_to_use_once into the Function Test body, and expect submitted:true with attemptId. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "note": "End-to-end Supabase path is proven: test assignment token resolved by hash, Edge Function inserted attempt and answer, and returned attemptId. Next cleanup step: redeploy the non-diagnostic submit-attempt function so debug fields are not returned in production-like responses. Do not paste privileged keys into browser/GitHub/public monitor/chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
