@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tutor Mum — teacher review v1</title>
+  <style>
+    :root{--ink:#17212b;--muted:#687789;--paper:#fffdf8;--cream:#f7f3eb;--teal:#0f766e;--coral:#e76f51;--line:#dce4e3;--ok:#e6f7f5;--bad:#fee2e2;--warn:#fff8e6;--okInk:#0f635c;--badInk:#991b1b;--warnInk:#9a3412}
+    *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1120px;margin:0 auto;padding:28px 18px 54px}.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 34px rgba(36,57,65,.07);padding:24px;margin:0 0 18px}.hero{background:var(--teal);color:#fff}.hero p{color:#d4f3ef}.eyebrow{color:var(--teal);font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}.hero .eyebrow{color:#a9e4dc}h1,h2,h3{margin:0 0 10px;line-height:1.1}h1{font-size:clamp(1.8rem,4vw,2.7rem);letter-spacing:-.04em}p{margin:0 0 12px}.muted{color:var(--muted)}label{display:block;font-weight:800;margin:15px 0 6px}input{width:100%;border:1px solid #cbd9d7;border-radius:12px;padding:12px 13px;font:inherit;background:#fff}button{border:0;border-radius:12px;padding:12px 16px;background:var(--coral);color:#fff;font:inherit;font-weight:900;cursor:pointer;margin:8px 8px 0 0}button.secondary{background:var(--teal)}button:disabled{opacity:.65;cursor:wait}.status{padding:13px 15px;border-radius:13px;border:1px solid transparent;margin-top:16px;white-space:pre-wrap;word-break:break-word}.status.ready{background:var(--ok);border-color:#9ed4cc;color:var(--okInk)}.status.warn{background:var(--warn);border-color:#fed7aa;color:var(--warnInk)}.status.error{background:var(--bad);border-color:#fca5a5;color:var(--badInk)}.attempts{display:grid;gap:14px}.attempt{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff}.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px 16px;margin-bottom:12px;color:var(--muted)}.answer{border-top:1px solid #edf2f1;padding-top:12px;margin-top:12px}.answer.pending{background:var(--warn);border:1px solid #fed7aa;border-radius:14px;padding:12px}.answer.correct{background:var(--ok);border:1px solid #9ed4cc;border-radius:14px;padding:12px}.answer.incorrect{background:var(--bad);border:1px solid #fca5a5;border-radius:14px;padding:12px}.answer strong{color:var(--ink)}.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.85rem;font-weight:800;margin-left:6px}.pill.pending{background:#fed7aa;color:var(--warnInk)}.pill.correct{background:#99f6e4;color:var(--okInk)}.pill.incorrect{background:#fecaca;color:var(--badInk)}.empty{padding:18px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);background:#fff}
+  </style>
+</head>
+<body>
+<main>
+  <section class="card hero">
+    <div class="eyebrow">Tutor Mum · teacher review v1</div>
+    <h1>Проверка ответов</h1>
+    <p>Мама видит попытки и отмечает ответы как верные или неверные. Комментарии и текстовый feedback в этом варианте не используются.</p>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Доступ преподавателя</div>
+    <p class="muted">Код доступа хранится только в Supabase Secrets. На странице он не сохраняется в localStorage/sessionStorage/cookies.</p>
+    <label for="teacherAccessCode">Код доступа мамы</label>
+    <input id="teacherAccessCode" name="teacherAccessCode" type="password" autocomplete="off" placeholder="Введите код доступа">
+    <button id="loadButton" type="button">Показать последние ответы</button>
+    <div id="statusBox" class="status warn">Готово. Введите код доступа и загрузите ответы.</div>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Последние попытки</div>
+    <div id="attemptsList" class="attempts"><div class="empty">Ответы пока не загружены.</div></div>
+  </section>
+</main>
+
+<script>
+(function(){
+  'use strict';
+  var RESULTS_URL='https://gnlolorqlfaoxmijimjy.supabase.co/functions/v1/teacher-results';
+  var REVIEW_URL='https://gnlolorqlfaoxmijimjy.supabase.co/functions/v1/review-answer';
+  var accessCodeInput=document.getElementById('teacherAccessCode');
+  var loadButton=document.getElementById('loadButton');
+  var statusBox=document.getElementById('statusBox');
+  var attemptsList=document.getElementById('attemptsList');
+  var activeAccessCode='';
+
+  function escapeHtml(value){return String(value==null?'':value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function statusFrom(value){if(value===true)return'correct';if(value===false)return'incorrect';return'pending'}
+  function labelFrom(status){if(status==='correct')return'верно';if(status==='incorrect')return'неверно';return'ожидает проверки'}
+  function setStatus(kind,text){statusBox.className='status '+kind;statusBox.textContent=text}
+  function answerValueText(value){if(value==null)return'';if(typeof value==='string'||typeof value==='number'||typeof value==='boolean')return String(value);try{return JSON.stringify(value)}catch(_){return String(value)}}
+
+  function renderAttempts(attempts){
+    if(!Array.isArray(attempts)||attempts.length===0){attemptsList.innerHTML='<div class="empty">Пока нет отправленных попыток.</div>';return}
+    attemptsList.innerHTML=attempts.map(function(attempt){
+      var answers=Array.isArray(attempt.answers)?attempt.answers:[];
+      var answerHtml=answers.length?answers.map(function(answer){
+        var state=statusFrom(answer.isCorrect);
+        return '<div class="answer '+state+'" data-answer-id="'+escapeHtml(answer.answerId)+'"><strong>'+escapeHtml(answer.exerciseId)+'</strong><span class="pill '+state+'">'+labelFrom(state)+'</span><br><div>'+escapeHtml(answerValueText(answer.value))+'</div><button class="secondary" type="button" data-review-answer="'+escapeHtml(answer.answerId)+'" data-review-value="true">Верно</button><button type="button" data-review-answer="'+escapeHtml(answer.answerId)+'" data-review-value="false">Неверно</button></div>';
+      }).join(''):'<div class="answer pending">Ответы в попытке не найдены.</div>';
+      return '<article class="attempt"><h3>'+escapeHtml(attempt.studentName||'Ученик')+'</h3><div class="meta"><div>Отправлено: '+escapeHtml(attempt.submittedAt||'—')+'</div><div>Статус попытки: '+escapeHtml(attempt.status||'—')+'</div><div>Учебник: '+escapeHtml(attempt.textbook||'—')+'</div><div>Уровень: '+escapeHtml(attempt.levelLabel||'—')+'</div><div>Задание: '+escapeHtml(attempt.assignmentTitle||attempt.assignmentId||'—')+'</div><div>Набор: '+escapeHtml(attempt.exerciseSetTitle||attempt.exerciseSetId||'—')+'</div><div>attemptId: '+escapeHtml(attempt.attemptId||'—')+'</div></div>'+answerHtml+'</article>';
+    }).join('')
+  }
+
+  async function loadResults(){
+    var accessCode=accessCodeInput.value || activeAccessCode;
+    if(!accessCode){setStatus('error','Введите код доступа мамы.');return}
+    activeAccessCode=accessCode;
+    loadButton.disabled=true;
+    setStatus('warn','Загружаю ответы из Supabase...');
+    try{
+      var response=await fetch(RESULTS_URL,{method:'POST',body:JSON.stringify({limit:50,teacherAccessCode:activeAccessCode})});
+      var text=await response.text();
+      var body;
+      try{body=text?JSON.parse(text):null}catch(_){body=text}
+      if(!response.ok){throw new Error(body&&body.error?body.error:('HTTP '+response.status))}
+      renderAttempts(body&&body.attempts);
+      setStatus('ready','Ответы загружены. Найдено попыток: '+((body&&body.count)||0));
+      accessCodeInput.value='';
+    }catch(error){setStatus('error','Не удалось загрузить ответы: '+error.message)}finally{loadButton.disabled=false}
+  }
+
+  async function reviewAnswer(answerId,isCorrect){
+    if(!activeAccessCode){setStatus('error','Сначала загрузите ответы с кодом доступа.');return}
+    setStatus('warn','Сохраняю отметку проверки...');
+    try{
+      var response=await fetch(REVIEW_URL,{method:'POST',body:JSON.stringify({teacherAccessCode:activeAccessCode,answerId:answerId,isCorrect:isCorrect})});
+      var text=await response.text();
+      var body;
+      try{body=text?JSON.parse(text):null}catch(_){body=text}
+      if(!response.ok){throw new Error(body&&body.error?body.error:('HTTP '+response.status))}
+      setStatus('ready','Отметка сохранена: '+(isCorrect?'верно':'неверно')+'. Ученик увидит цвет после обновления своей страницы.');
+      await loadResults();
+    }catch(error){setStatus('error','Не удалось сохранить проверку: '+error.message)}
+  }
+
+  loadButton.addEventListener('click',loadResults);
+  attemptsList.addEventListener('click',function(event){
+    var target=event.target;
+    if(!target||!target.getAttribute)return;
+    var answerId=target.getAttribute('data-review-answer');
+    if(!answerId)return;
+    reviewAnswer(answerId,target.getAttribute('data-review-value')==='true');
+  });
+}());
+</script>
+</body>
+</html>
