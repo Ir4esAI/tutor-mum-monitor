@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:56:14Z",
+  "generatedAtUtc": "2026-09-03T12:59:00Z",
   "product": {
     "state": "PAUSE",
-    "label": "REMOTE ROADMAP ЗАВЕРШЁН",
+    "label": "НУЖЕН РУЧНОЙ SUPABASE DEPLOY: SQL PHASE 1",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "Supabase remote runtime roadmap completed; queue_empty after teacher-page-remote-results",
-    "progress": "16/16",
+    "reason": "Repository-proven remote roadmap completed; next safe step is applying database schema/RLS migration in Supabase SQL Editor",
+    "progress": "16/16 + deploy phase 1 pending",
     "lastCompleted": "teacher-page-remote-results",
-    "acting": "user/deploy-next",
+    "acting": "user/supabase-sql-editor",
     "needsUserAction": true,
-    "note": "Repository-proven Supabase remote runtime pilot завершён: schema/RLS migration, submit-attempt Edge Function, remote storage adapter, student remote submit and teacher remote results seam are in autonomy-v6. Следующий шаг — контролируемый Supabase deploy/configuration, без service_role в браузере и без публикации приватного repo."
+    "note": "Сначала применяем только migration supabase/migrations/20260903114500_remote_runtime_foundation.sql. Не деплоим Edge Function, не выбираем GitHub repo, не вставляем service role в frontend. После SQL phase 1 проверяем семь runtime tables и RLS."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
