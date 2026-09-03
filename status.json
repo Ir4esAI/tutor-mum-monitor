@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T13:57:00Z",
+  "generatedAtUtc": "2026-09-03T14:00:00Z",
   "product": {
     "state": "PAUSE",
-    "label": "STUDENT LIVE SMOKE PAGE READY",
+    "label": "STUDENT SUBMIT + TEACHER REVIEW SMOKE READY",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "Student-side live submit smoke page added after no-student-account product correction",
-    "progress": "16/16 + backend clean pass + student live smoke frontend ready; browser smoke pending",
-    "lastCompleted": "student-live-smoke-page-ready",
+    "reason": "Student no-account submit smoke page and teacher read-only results review query are ready after backend clean pass",
+    "progress": "16/16 + backend clean pass + student live smoke frontend ready + teacher review query ready; browser smoke pending",
+    "lastCompleted": "student-submit-teacher-review-smoke-ready",
     "acting": "user/browser-student-submit-smoke-next",
     "needsUserAction": true,
-    "note": "Current MVP invariant: students do not have personal cabinets/accounts/history pages. Student side is a clean submit-only assignment page; results accumulate in Supabase for teacher review. New page product_app/student_live_smoke.html submits to the proven submit-attempt function using only Supabase URL + publishable key. Guard added as npm script test:student-live-smoke-contract. No service role, secret key, database password, connection string, JWT secret, raw assignment token persistence, localStorage, sessionStorage, indexedDB, or cookies in the student smoke page."
+    "note": "Current MVP invariant: students do not have personal cabinets/accounts/history pages. Student side is a clean submit-only assignment page; results accumulate in Supabase for teacher review. Added product_app/student_live_smoke.html, guard npm script test:student-live-smoke-contract, docs/automation-v2/STUDENT_NO_ACCOUNT_RUNTIME_INVARIANT.md, and docs/automation-v2/SUPABASE_TEACHER_RESULTS_REVIEW_QUERY.sql. No service role, secret key, database password, connection string, JWT secret, raw assignment token persistence, localStorage, sessionStorage, indexedDB, or cookies in the student smoke page."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
