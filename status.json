@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:59:45Z",
+  "generatedAtUtc": "2026-09-03T13:03:00Z",
   "product": {
     "state": "PAUSE",
-    "label": "SQL PHASE 1 ВЫПОЛНЕН",
+    "label": "EDGE FUNCTION СОЗДАНА — НУЖЕН SMOKE TEST",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User reported Supabase SQL Editor success for database schema/RLS migration",
-    "progress": "16/16 + deploy phase 1 done; phase 2 pending",
-    "lastCompleted": "supabase-sql-phase-1",
-    "acting": "user/supabase-edge-function-next",
+    "reason": "User reported submit-attempt Edge Function was created in Supabase Dashboard",
+    "progress": "16/16 + SQL phase 1 done + Edge Function created; smoke test pending",
+    "lastCompleted": "supabase-edge-function-created-user-reported",
+    "acting": "user/supabase-function-test",
     "needsUserAction": true,
-    "note": "Database schema/RLS migration has been applied manually. Next controlled step is Edge Function deploy for submit-attempt. Use Supabase Dashboard/Editor only; do not put service role, secret keys, database passwords, connection strings, or JWT secrets into frontend code, GitHub, public monitor, or chat."
+    "note": "SQL phase 1 applied and submit-attempt function reportedly created. Next step is Dashboard smoke test with dummy assignment token. Expected safe result is invalid_assignment_token; JWT error means Verify JWT is still enabled; server_configuration_error means function environment is missing server-side Supabase variables. Do not paste privileged keys into browser/GitHub/public monitor/chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
