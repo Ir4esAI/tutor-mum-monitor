@@ -3,94 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tutor Mum — live submit smoke</title>
+  <title>Tutor Mum — student assignment smoke</title>
   <style>
-    :root {
-      --ink: #17212b;
-      --muted: #687789;
-      --paper: #fffdf8;
-      --cream: #f7f3eb;
-      --teal: #0f766e;
-      --coral: #e76f51;
-      --line: #dce4e3;
-      --ok: #e6f7f5;
-      --warn: #fff8e6;
-      --err: #fee2e2;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--cream);
-      color: var(--ink);
-      font: 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    main { max-width: 840px; margin: 0 auto; padding: 28px 18px 54px; }
-    .card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      box-shadow: 0 14px 34px rgba(36, 57, 65, 0.07);
-      padding: 24px;
-      margin: 0 0 18px;
-    }
-    .hero { background: var(--teal); color: #fff; }
-    .hero p { color: #d4f3ef; }
-    .eyebrow {
-      color: var(--teal);
-      font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .hero .eyebrow { color: #a9e4dc; }
-    h1, h2 { margin: 0 0 10px; line-height: 1.1; }
-    h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.04em; }
-    p { margin: 0 0 12px; }
-    .muted { color: var(--muted); }
-    .technical { display: none; }
-    .technical.visible { display: block; }
-    label { display: block; font-weight: 800; margin: 15px 0 6px; }
-    input, textarea {
-      width: 100%;
-      border: 1px solid #cbd9d7;
-      border-radius: 12px;
-      padding: 12px 13px;
-      font: inherit;
-      background: #fff;
-    }
-    textarea { min-height: 110px; resize: vertical; }
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 13px 18px;
-      background: var(--coral);
-      color: #fff;
-      font: inherit;
-      font-weight: 900;
-      cursor: pointer;
-      margin-top: 16px;
-    }
-    button:disabled { opacity: 0.65; cursor: wait; }
-    .status {
-      padding: 13px 15px;
-      border-radius: 13px;
-      border: 1px solid transparent;
-      margin-top: 16px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    .status.ready { background: var(--ok); border-color: #9ed4cc; color: #0f635c; }
-    .status.warn { background: var(--warn); border-color: #fed7aa; color: #9a3412; }
-    .status.error { background: var(--err); border-color: #fca5a5; color: #991b1b; }
+    :root{--ink:#17212b;--muted:#687789;--paper:#fffdf8;--cream:#f7f3eb;--teal:#0f766e;--coral:#e76f51;--line:#dce4e3;--ok:#e6f7f5;--bad:#fee2e2;--warn:#fff8e6;--okInk:#0f635c;--badInk:#991b1b;--warnInk:#9a3412}*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:840px;margin:0 auto;padding:28px 18px 54px}.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 34px rgba(36,57,65,.07);padding:24px;margin:0 0 18px}.hero{background:var(--teal);color:#fff}.hero p{color:#d4f3ef}.eyebrow{color:var(--teal);font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}.hero .eyebrow{color:#a9e4dc}h1,h2{margin:0 0 10px;line-height:1.1}h1{font-size:clamp(1.8rem,4vw,2.7rem);letter-spacing:-.04em}p{margin:0 0 12px}.muted{color:var(--muted)}.technical{display:none}.technical.visible{display:block}label{display:block;font-weight:800;margin:15px 0 6px}input,textarea{width:100%;border:1px solid #cbd9d7;border-radius:12px;padding:12px 13px;font:inherit;background:#fff}textarea{min-height:110px;resize:vertical}button{border:0;border-radius:12px;padding:13px 18px;background:var(--coral);color:#fff;font:inherit;font-weight:900;cursor:pointer;margin-top:16px}button.secondary{background:var(--teal)}button:disabled{opacity:.65;cursor:wait}.status{padding:13px 15px;border-radius:13px;border:1px solid transparent;margin-top:16px;white-space:pre-wrap;word-break:break-word}.status.ready{background:var(--ok);border-color:#9ed4cc;color:var(--okInk)}.status.warn{background:var(--warn);border-color:#fed7aa;color:var(--warnInk)}.status.error{background:var(--bad);border-color:#fca5a5;color:var(--badInk)}.answerResult{border-radius:14px;padding:14px;margin-top:12px;border:1px solid transparent}.answerResult.pending{background:var(--warn);border-color:#fed7aa;color:var(--warnInk)}.answerResult.correct{background:var(--ok);border-color:#9ed4cc;color:var(--okInk)}.answerResult.incorrect{background:var(--bad);border-color:#fca5a5;color:var(--badInk)}.pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.85rem;font-weight:900;margin-left:6px}.pill.pending{background:#fed7aa;color:var(--warnInk)}.pill.correct{background:#99f6e4;color:var(--okInk)}.pill.incorrect{background:#fecaca;color:var(--badInk)}
   </style>
 </head>
 <body>
 <main>
   <section class="card hero">
     <div class="eyebrow">Tutor Mum · personal assignment link</div>
-    <h1>Проверка отправки ответа ученика</h1>
-    <p>Это не личный кабинет. Ученик открывает персональную ссылку, вводит ответ и отправляет одну попытку. Результат уходит преподавателю.</p>
+    <h1>Страница задания</h1>
+    <p>Это не личный кабинет. Ученик открывает персональную ссылку, отправляет ответ, а после проверки обновляет эту же страницу и видит цветовой статус своего ответа.</p>
   </section>
 
   <section class="card">
@@ -109,109 +32,80 @@
     <textarea id="answerValue" name="answerValue" autocomplete="off" placeholder="Введите ответ ученика...">hello from student page</textarea>
 
     <button id="submitButton" type="button">Отправить попытку</button>
+    <button id="refreshReviewButton" class="secondary" type="button">Обновить статус проверки</button>
     <div id="statusBox" class="status warn">Готово к тесту. Откройте персональную ссылку и отправьте попытку.</div>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Статус проверки</div>
+    <p class="muted">Здесь показывается только состояние своей отправленной попытки: ожидает проверки / верно / неверно. Чужих ответов и истории тут нет.</p>
+    <div id="reviewBox" class="answerResult pending">Пока нет отправленной попытки для проверки.</div>
   </section>
 </main>
 
 <script>
-(function () {
+(function(){
   'use strict';
+  var SUPABASE_URL='https://gnlolorqlfaoxmijimjy.supabase.co';
+  var SUPABASE_PUBLISHABLE_KEY='sb_publishable_urES_lvatGMrAnYDqSK-aw_otxPMd8_';
+  var SUBMIT_URL=SUPABASE_URL+'/functions/v1/submit-attempt';
+  var STATUS_URL=SUPABASE_URL+'/functions/v1/student-attempt-status';
 
-  var SUPABASE_URL = 'https://gnlolorqlfaoxmijimjy.supabase.co';
-  var SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_urES_lvatGMrAnYDqSK-aw_otxPMd8_';
-  var FUNCTION_URL = SUPABASE_URL + '/functions/v1/submit-attempt';
+  var tokenInput=document.getElementById('assignmentToken');
+  var tokenBlock=document.getElementById('technicalTokenBlock');
+  var linkStatus=document.getElementById('linkStatus');
+  var exerciseInput=document.getElementById('exerciseId');
+  var answerInput=document.getElementById('answerValue');
+  var submitButton=document.getElementById('submitButton');
+  var refreshReviewButton=document.getElementById('refreshReviewButton');
+  var statusBox=document.getElementById('statusBox');
+  var reviewBox=document.getElementById('reviewBox');
+  var assignmentTokenFromLink='';
 
-  var tokenInput = document.getElementById('assignmentToken');
-  var tokenBlock = document.getElementById('technicalTokenBlock');
-  var linkStatus = document.getElementById('linkStatus');
-  var exerciseInput = document.getElementById('exerciseId');
-  var answerInput = document.getElementById('answerValue');
-  var submitButton = document.getElementById('submitButton');
-  var statusBox = document.getElementById('statusBox');
-  var assignmentTokenFromLink = '';
-
-  function getParam(name) {
-    try { return new URLSearchParams(window.location.search).get(name); }
-    catch (_) { return null; }
+  function getParams(){try{return new URLSearchParams(window.location.search)}catch(_){return new URLSearchParams()}}
+  function getParam(name){return getParams().get(name)}
+  function setStatus(kind,text){statusBox.className='status '+kind;statusBox.textContent=text}
+  function escapeHtml(value){return String(value==null?'':value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function stateLabel(state){if(state==='correct')return'верно';if(state==='incorrect')return'неверно';return'ожидает проверки'}
+  function makeAttemptId(){if(window.crypto&&typeof window.crypto.randomUUID==='function')return'student-live-'+window.crypto.randomUUID();return'student-live-'+Date.now()+'-'+Math.random().toString(16).slice(2)}
+  function answerValueText(value){if(value==null)return'';if(typeof value==='string'||typeof value==='number'||typeof value==='boolean')return String(value);try{return JSON.stringify(value)}catch(_){return String(value)}}
+  function currentToken(){return assignmentTokenFromLink||tokenInput.value.trim()}
+  function currentAttemptId(){return getParam('attemptId')||''}
+  function writeAttemptToUrl(attemptId){try{var url=new URL(window.location.href);url.searchParams.set('attemptId',attemptId);window.history.replaceState(null,'',url.toString())}catch(_){}}
+  function renderReview(attempt){
+    var answers=attempt&&Array.isArray(attempt.answers)?attempt.answers:[];
+    if(!attempt||answers.length===0){reviewBox.className='answerResult pending';reviewBox.textContent='Проверяемая попытка пока не найдена.';return}
+    reviewBox.innerHTML=answers.map(function(answer){var state=answer.reviewStatus||'pending';return '<div class="answerResult '+state+'"><strong>'+escapeHtml(answer.exerciseId)+'</strong><span class="pill '+state+'">'+stateLabel(state)+'</span><br>'+escapeHtml(answerValueText(answer.value))+'</div>'}).join('')
   }
-
-  function setStatus(kind, text) {
-    statusBox.className = 'status ' + kind;
-    statusBox.textContent = text;
+  async function loadReviewStatus(){
+    var token=currentToken();var attemptId=currentAttemptId();
+    if(!token||!attemptId){reviewBox.className='answerResult pending';reviewBox.textContent='После отправки здесь появится статус проверки.';return}
+    setStatus('warn','Обновляю статус проверки...');
+    try{
+      var response=await fetch(STATUS_URL,{method:'POST',body:JSON.stringify({assignmentToken:token,attemptId:attemptId})});
+      var text=await response.text();var body;try{body=text?JSON.parse(text):null}catch(_){body=text}
+      if(!response.ok)throw new Error(body&&body.error?body.error:('HTTP '+response.status));
+      renderReview(body&&body.attempt);setStatus('ready','Статус проверки обновлён.');
+    }catch(error){setStatus('error','Не удалось обновить статус проверки: '+error.message)}
   }
-
-  function makeAttemptId() {
-    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-      return 'student-live-' + window.crypto.randomUUID();
-    }
-    return 'student-live-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+  function prefillFromLink(){
+    assignmentTokenFromLink=getParam('assignmentToken')||getParam('token')||'';
+    var exerciseId=getParam('exerciseId');if(exerciseId)exerciseInput.value=exerciseId;
+    if(assignmentTokenFromLink){linkStatus.textContent='Персональная ссылка активирована. Технический код скрыт; ученик его не вводит вручную.';setStatus('warn','Готово. Введите ответ и нажмите отправку.')}else{tokenBlock.className='technical visible';linkStatus.textContent='Персональная ссылка не содержит технического параметра. Для ручного smoke-теста можно вставить значение из SQL-результата.'}
+    if(currentAttemptId())loadReviewStatus();
   }
-
-  function prefillFromLink() {
-    assignmentTokenFromLink = getParam('assignmentToken') || getParam('token') || '';
-    var exerciseId = getParam('exerciseId');
-    if (exerciseId) exerciseInput.value = exerciseId;
-
-    if (assignmentTokenFromLink) {
-      linkStatus.textContent = 'Персональная ссылка активирована. Технический код скрыт; ученик его не вводит вручную.';
-      setStatus('warn', 'Готово к тесту. Введите ответ и нажмите отправку.');
-      return;
-    }
-
-    tokenBlock.className = 'technical visible';
-    linkStatus.textContent = 'Персональная ссылка не содержит технического параметра. Для ручного smoke-теста можно вставить значение из SQL-результата.';
+  async function submitAttempt(){
+    var assignmentToken=currentToken();var exerciseId=exerciseInput.value.trim();var answerValue=answerInput.value;
+    if(!assignmentToken||!exerciseId){setStatus('error','Нужна персональная ссылка задания и ID упражнения.');return}
+    submitButton.disabled=true;setStatus('warn','Отправляю попытку в Supabase...');
+    try{
+      var response=await fetch(SUBMIT_URL,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:'Bearer '+SUPABASE_PUBLISHABLE_KEY,'Content-Type':'application/json'},body:JSON.stringify({assignmentToken:assignmentToken,answers:[{exerciseId:exerciseId,value:answerValue}],clientAttemptId:makeAttemptId()})});
+      var text=await response.text();var body;try{body=text?JSON.parse(text):null}catch(_){body=text}
+      if(!response.ok)throw new Error(body&&body.error?body.error:('HTTP '+response.status));
+      writeAttemptToUrl(body.attemptId);setStatus('ready','Попытка отправлена. attemptId: '+body.attemptId+'\nПосле проверки мамой обновите страницу или нажмите “Обновить статус проверки”.');answerInput.value='';await loadReviewStatus();
+    }catch(error){setStatus('error','Не удалось отправить попытку: '+error.message+'\nПоля не потеряны, можно исправить и отправить снова.')}finally{submitButton.disabled=false}
   }
-
-  async function submitAttempt() {
-    var assignmentToken = assignmentTokenFromLink || tokenInput.value.trim();
-    var exerciseId = exerciseInput.value.trim();
-    var answerValue = answerInput.value;
-
-    if (!assignmentToken || !exerciseId) {
-      setStatus('error', 'Нужна персональная ссылка задания и ID упражнения.');
-      return;
-    }
-
-    submitButton.disabled = true;
-    setStatus('warn', 'Отправляю попытку в Supabase...');
-
-    try {
-      var response = await fetch(FUNCTION_URL, {
-        method: 'POST',
-        headers: {
-          apikey: SUPABASE_PUBLISHABLE_KEY,
-          Authorization: 'Bearer ' + SUPABASE_PUBLISHABLE_KEY,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          assignmentToken: assignmentToken,
-          answers: [
-            { exerciseId: exerciseId, value: answerValue }
-          ],
-          clientAttemptId: makeAttemptId()
-        })
-      });
-
-      var text = await response.text();
-      var body;
-      try { body = text ? JSON.parse(text) : null; } catch (_) { body = text; }
-
-      if (!response.ok) {
-        var message = body && body.error ? body.error : ('HTTP ' + response.status);
-        throw new Error(message);
-      }
-
-      setStatus('ready', 'Попытка отправлена. attemptId: ' + body.attemptId);
-      answerInput.value = '';
-    } catch (error) {
-      setStatus('error', 'Не удалось отправить попытку: ' + error.message + '\nПоля не потеряны, можно исправить и отправить снова.');
-    } finally {
-      submitButton.disabled = false;
-    }
-  }
-
-  prefillFromLink();
-  submitButton.addEventListener('click', submitAttempt);
+  prefillFromLink();submitButton.addEventListener('click',submitAttempt);refreshReviewButton.addEventListener('click',loadReviewStatus);
 }());
 </script>
 </body>
