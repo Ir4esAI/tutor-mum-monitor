@@ -5,45 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tutor Mum — teacher review smoke</title>
   <style>
-    :root {
-      --ink: #17212b;
-      --muted: #687789;
-      --paper: #fffdf8;
-      --cream: #f7f3eb;
-      --teal: #0f766e;
-      --coral: #e76f51;
-      --line: #dce4e3;
-      --ok: #e6f7f5;
-      --warn: #fff8e6;
-      --err: #fee2e2;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--cream); color: var(--ink); font: 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    main { max-width: 1120px; margin: 0 auto; padding: 28px 18px 54px; }
-    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 14px 34px rgba(36,57,65,.07); padding: 24px; margin: 0 0 18px; }
-    .hero { background: var(--teal); color: #fff; }
-    .hero p { color: #d4f3ef; }
-    .eyebrow { color: var(--teal); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
-    .hero .eyebrow { color: #a9e4dc; }
-    h1, h2 { margin: 0 0 10px; line-height: 1.1; }
-    h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -.04em; }
-    p { margin: 0 0 12px; }
-    .muted { color: var(--muted); }
-    label { display: block; font-weight: 800; margin: 15px 0 6px; }
-    input { width: 100%; border: 1px solid #cbd9d7; border-radius: 12px; padding: 12px 13px; font: inherit; background: #fff; }
-    button { border: 0; border-radius: 12px; padding: 13px 18px; background: var(--coral); color: #fff; font: inherit; font-weight: 900; cursor: pointer; margin-top: 16px; }
-    button:disabled { opacity: .65; cursor: wait; }
-    .status { padding: 13px 15px; border-radius: 13px; border: 1px solid transparent; margin-top: 16px; white-space: pre-wrap; word-break: break-word; }
-    .status.ready { background: var(--ok); border-color: #9ed4cc; color: #0f635c; }
-    .status.warn { background: var(--warn); border-color: #fed7aa; color: #9a3412; }
-    .status.error { background: var(--err); border-color: #fca5a5; color: #991b1b; }
-    .attempts { display: grid; gap: 14px; }
-    .attempt { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: #fff; }
-    .attempt h3 { margin: 0 0 8px; }
-    .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px 16px; margin-bottom: 12px; color: var(--muted); }
-    .answer { border-top: 1px solid #edf2f1; padding-top: 10px; margin-top: 10px; }
-    .answer strong { color: var(--ink); }
-    .empty { padding: 18px; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); background: #fff; }
+    :root{--ink:#17212b;--muted:#687789;--paper:#fffdf8;--cream:#f7f3eb;--teal:#0f766e;--coral:#e76f51;--line:#dce4e3;--ok:#e6f7f5;--warn:#fff8e6;--err:#fee2e2}*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1120px;margin:0 auto;padding:28px 18px 54px}.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 34px rgba(36,57,65,.07);padding:24px;margin:0 0 18px}.hero{background:var(--teal);color:#fff}.hero p{color:#d4f3ef}.eyebrow{color:var(--teal);font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}.hero .eyebrow{color:#a9e4dc}h1,h2{margin:0 0 10px;line-height:1.1}h1{font-size:clamp(1.8rem,4vw,2.7rem);letter-spacing:-.04em}p{margin:0 0 12px}.muted{color:var(--muted)}label{display:block;font-weight:800;margin:15px 0 6px}input{width:100%;border:1px solid #cbd9d7;border-radius:12px;padding:12px 13px;font:inherit;background:#fff}button{border:0;border-radius:12px;padding:13px 18px;background:var(--coral);color:#fff;font:inherit;font-weight:900;cursor:pointer;margin-top:16px}button:disabled{opacity:.65;cursor:wait}.status{padding:13px 15px;border-radius:13px;border:1px solid transparent;margin-top:16px;white-space:pre-wrap;word-break:break-word}.status.ready{background:var(--ok);border-color:#9ed4cc;color:#0f635c}.status.warn{background:var(--warn);border-color:#fed7aa;color:#9a3412}.status.error{background:var(--err);border-color:#fca5a5;color:#991b1b}.attempts{display:grid;gap:14px}.attempt{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff}.attempt h3{margin:0 0 8px}.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px 16px;margin-bottom:12px;color:var(--muted)}.answer{border-top:1px solid #edf2f1;padding-top:10px;margin-top:10px}.answer strong{color:var(--ink)}.empty{padding:18px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);background:#fff}
   </style>
 </head>
 <body>
@@ -56,7 +18,7 @@
 
   <section class="card">
     <div class="eyebrow">Доступ преподавателя</div>
-    <p class="muted">Код доступа задаётся в Supabase Secrets и не хранится на странице. Страница отправляет код только в body запроса к read-only Edge Function.</p>
+    <p class="muted">Код доступа задаётся в Supabase Secrets и не хранится на странице. Страница отправляет код только в body запроса к read-only Edge Function. Запрос сделан без Authorization/apikey headers, чтобы не запускать браузерный preflight.</p>
     <label for="teacherAccessCode">Код доступа мамы</label>
     <input id="teacherAccessCode" name="teacherAccessCode" type="password" autocomplete="off" placeholder="Введите код доступа">
     <button id="loadButton" type="button">Показать последние ответы</button>
@@ -70,102 +32,42 @@
 </main>
 
 <script>
-(function () {
+(function(){
   'use strict';
+  var FUNCTION_URL='https://gnlolorqlfaoxmijimjy.supabase.co/functions/v1/teacher-results';
+  var accessCodeInput=document.getElementById('teacherAccessCode');
+  var loadButton=document.getElementById('loadButton');
+  var statusBox=document.getElementById('statusBox');
+  var attemptsList=document.getElementById('attemptsList');
 
-  var SUPABASE_URL = 'https://gnlolorqlfaoxmijimjy.supabase.co';
-  var SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_urES_lvatGMrAnYDqSK-aw_otxPMd8_';
-  var FUNCTION_URL = SUPABASE_URL + '/functions/v1/teacher-results';
-
-  var accessCodeInput = document.getElementById('teacherAccessCode');
-  var loadButton = document.getElementById('loadButton');
-  var statusBox = document.getElementById('statusBox');
-  var attemptsList = document.getElementById('attemptsList');
-
-  function escapeHtml(value) {
-    return String(value == null ? '' : value)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  function escapeHtml(value){return String(value==null?'':value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function setStatus(kind,text){statusBox.className='status '+kind;statusBox.textContent=text}
+  function renderAttempts(attempts){
+    if(!Array.isArray(attempts)||attempts.length===0){attemptsList.innerHTML='<div class="empty">Пока нет отправленных попыток.</div>';return}
+    attemptsList.innerHTML=attempts.map(function(attempt){
+      var answers=Array.isArray(attempt.answers)?attempt.answers:[];
+      var answerHtml=answers.length?answers.map(function(answer){return '<div class="answer"><strong>'+escapeHtml(answer.exerciseId)+'</strong><br>'+escapeHtml(answer.value)+'</div>'}).join(''):'<div class="answer">Ответы в попытке не найдены.</div>';
+      return '<article class="attempt"><h3>'+escapeHtml(attempt.studentName||'Ученик')+'</h3><div class="meta"><div>Отправлено: '+escapeHtml(attempt.submittedAt||'—')+'</div><div>Статус: '+escapeHtml(attempt.status||'—')+'</div><div>Учебник: '+escapeHtml(attempt.textbook||'—')+'</div><div>Уровень: '+escapeHtml(attempt.levelLabel||'—')+'</div><div>Задание: '+escapeHtml(attempt.assignmentTitle||attempt.assignmentId||'—')+'</div><div>Набор: '+escapeHtml(attempt.exerciseSetTitle||attempt.exerciseSetId||'—')+'</div><div>attemptId: '+escapeHtml(attempt.attemptId||'—')+'</div></div>'+answerHtml+'</article>'
+    }).join('')
   }
 
-  function setStatus(kind, text) {
-    statusBox.className = 'status ' + kind;
-    statusBox.textContent = text;
-  }
-
-  function renderAttempts(attempts) {
-    if (!Array.isArray(attempts) || attempts.length === 0) {
-      attemptsList.innerHTML = '<div class="empty">Пока нет отправленных попыток.</div>';
-      return;
-    }
-
-    attemptsList.innerHTML = attempts.map(function (attempt) {
-      var answers = Array.isArray(attempt.answers) ? attempt.answers : [];
-      var answerHtml = answers.length ? answers.map(function (answer) {
-        return '<div class="answer"><strong>' + escapeHtml(answer.exerciseId) + '</strong><br>' + escapeHtml(answer.value) + '</div>';
-      }).join('') : '<div class="answer">Ответы в попытке не найдены.</div>';
-
-      return '<article class="attempt">' +
-        '<h3>' + escapeHtml(attempt.studentName || 'Ученик') + '</h3>' +
-        '<div class="meta">' +
-          '<div>Отправлено: ' + escapeHtml(attempt.submittedAt || '—') + '</div>' +
-          '<div>Статус: ' + escapeHtml(attempt.status || '—') + '</div>' +
-          '<div>Учебник: ' + escapeHtml(attempt.textbook || '—') + '</div>' +
-          '<div>Уровень: ' + escapeHtml(attempt.levelLabel || '—') + '</div>' +
-          '<div>Задание: ' + escapeHtml(attempt.assignmentTitle || attempt.assignmentId || '—') + '</div>' +
-          '<div>Набор: ' + escapeHtml(attempt.exerciseSetTitle || attempt.exerciseSetId || '—') + '</div>' +
-          '<div>attemptId: ' + escapeHtml(attempt.attemptId || '—') + '</div>' +
-        '</div>' + answerHtml +
-      '</article>';
-    }).join('');
-  }
-
-  async function loadResults() {
-    var accessCode = accessCodeInput.value;
-    if (!accessCode) {
-      setStatus('error', 'Введите код доступа мамы.');
-      return;
-    }
-
-    loadButton.disabled = true;
-    setStatus('warn', 'Загружаю ответы из Supabase...');
-
-    try {
-      var response = await fetch(FUNCTION_URL, {
-        method: 'POST',
-        headers: {
-          apikey: SUPABASE_PUBLISHABLE_KEY,
-          Authorization: 'Bearer ' + SUPABASE_PUBLISHABLE_KEY,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          limit: 50,
-          teacherAccessCode: accessCode
-        })
-      });
-
-      var text = await response.text();
+  async function loadResults(){
+    var accessCode=accessCodeInput.value;
+    if(!accessCode){setStatus('error','Введите код доступа мамы.');return}
+    loadButton.disabled=true;
+    setStatus('warn','Загружаю ответы из Supabase...');
+    try{
+      var response=await fetch(FUNCTION_URL,{method:'POST',body:JSON.stringify({limit:50,teacherAccessCode:accessCode})});
+      var text=await response.text();
       var body;
-      try { body = text ? JSON.parse(text) : null; } catch (_) { body = text; }
-
-      if (!response.ok) {
-        var message = body && body.error ? body.error : ('HTTP ' + response.status);
-        throw new Error(message);
-      }
-
-      renderAttempts(body && body.attempts);
-      setStatus('ready', 'Ответы загружены. Найдено попыток: ' + ((body && body.count) || 0));
-      accessCodeInput.value = '';
-    } catch (error) {
-      setStatus('error', 'Не удалось загрузить ответы: ' + error.message);
-    } finally {
-      loadButton.disabled = false;
-    }
+      try{body=text?JSON.parse(text):null}catch(_){body=text}
+      if(!response.ok){throw new Error(body&&body.error?body.error:('HTTP '+response.status))}
+      renderAttempts(body&&body.attempts);
+      setStatus('ready','Ответы загружены. Найдено попыток: '+((body&&body.count)||0));
+      accessCodeInput.value='';
+    }catch(error){setStatus('error','Не удалось загрузить ответы: '+error.message+'\nЕсли это снова Failed to fetch, значит у функции teacher-results ещё включён Verify JWT или функция не развернулась под точным именем teacher-results.')}finally{loadButton.disabled=false}
   }
-
-  loadButton.addEventListener('click', loadResults);
+  loadButton.addEventListener('click',loadResults);
 }());
 </script>
 </body>
