@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T16:55:00Z",
+  "generatedAtUtc": "2026-09-03T17:34:00Z",
   "product": {
     "state": "PAUSE",
-    "label": "STUDENT REVIEW STATUS ENDPOINT PENDING",
+    "label": "EXERCISE DIVERSITY LOGIC RESET READY",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User screenshot showed student page status refresh returns HTTP 404 while the submitted attempt is visible on the teacher page; this means the status lookup endpoint is missing/not deployed, not that the student attempt was absent",
-    "progress": "16/16 + submit-attempt pass + teacher-results pass + teacher page sees attempt; student own-review-status endpoint/page behavior patched; student-attempt-status deploy/check pending",
-    "lastCompleted": "student-page-preserve-submitted-attempt-patch-ready",
-    "acting": "user/deploy-or-check-student-attempt-status-next",
-    "needsUserAction": true,
-    "note": "The student page was patched so a successful submit immediately displays a pending review block and keeps attemptId in the URL, instead of letting a missing student-attempt-status function overwrite the successful submit with a misleading empty state. Remaining work: create/deploy Edge Function student-attempt-status with Verify JWT OFF, then refresh the student page after mom marks correct/incorrect. Existing proven student submit and teacher visibility remain PASS."
+    "reason": "The previous diversity demo was rejected because it used shallow drill variation, leaked neighbouring answer patterns, exposed debug labels, used the wrong scope, and looked like identical worksheet cards",
+    "progress": "Student submit and teacher review path remain proven; diversity work reset from cosmetic demo to mechanic-bank plus composition-policy approach; Starlight 11 demo v2 published for review",
+    "lastCompleted": "exercise-diversity-mechanic-bank-and-demo-v2-ready",
+    "acting": "chatgpt/exercise-diversity-composer-gate-next",
+    "needsUserAction": false,
+    "note": "New product standard: diversity means different learner actions, not different wrappers. Current scope is Starlight 11. The mechanic bank defines cognitive operation, interaction pattern, surface/context, adjacency rules, and rejection gates. Published demo: /starlight11_diversity_demo_v2.html. Remaining technical gate: run the new diversity engine test and wire the composer/renderer to this policy. Student review-status endpoint deploy remains a separate pending backend task."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
