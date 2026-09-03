@@ -56,7 +56,7 @@
 
   <section class="card">
     <div class="eyebrow">Доступ преподавателя</div>
-    <p class="muted">Код доступа задаётся в Supabase Secrets и не хранится на странице. Страница только запрашивает read-only отчёт у Edge Function.</p>
+    <p class="muted">Код доступа задаётся в Supabase Secrets и не хранится на странице. Страница отправляет код только в body запроса к read-only Edge Function.</p>
     <label for="teacherAccessCode">Код доступа мамы</label>
     <input id="teacherAccessCode" name="teacherAccessCode" type="password" autocomplete="off" placeholder="Введите код доступа">
     <button id="loadButton" type="button">Показать последние ответы</button>
@@ -138,10 +138,12 @@
         headers: {
           apikey: SUPABASE_PUBLISHABLE_KEY,
           Authorization: 'Bearer ' + SUPABASE_PUBLISHABLE_KEY,
-          'Content-Type': 'application/json',
-          'x-teacher-review-access-code': accessCode
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ limit: 50 })
+        body: JSON.stringify({
+          limit: 50,
+          teacherAccessCode: accessCode
+        })
       });
 
       var text = await response.text();
