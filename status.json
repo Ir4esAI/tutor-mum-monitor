@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T16:50:00Z",
+  "generatedAtUtc": "2026-09-03T16:55:00Z",
   "product": {
     "state": "PAUSE",
-    "label": "TEACHER CORRECTNESS REVIEW READY",
+    "label": "STUDENT REVIEW STATUS ENDPOINT PENDING",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "Teacher review v1 was corrected to remove feedback/comments and support correctness marking only; student page was prepared to show own reviewed status after refresh",
-    "progress": "16/16 + backend clean pass + public student submit pass + teacher review pass + normalized teacher-results pass + no-feedback correctness review layer ready; deploy/test pending",
-    "lastCompleted": "teacher-correctness-review-layer-ready",
-    "acting": "user/deploy-review-answer-and-student-status-next",
+    "reason": "User screenshot showed student page status refresh returns HTTP 404 while the submitted attempt is visible on the teacher page; this means the status lookup endpoint is missing/not deployed, not that the student attempt was absent",
+    "progress": "16/16 + submit-attempt pass + teacher-results pass + teacher page sees attempt; student own-review-status endpoint/page behavior patched; student-attempt-status deploy/check pending",
+    "lastCompleted": "student-page-preserve-submitted-attempt-patch-ready",
+    "acting": "user/deploy-or-check-student-attempt-status-next",
     "needsUserAction": true,
-    "note": "Current MVP invariant: no student cabinets/accounts/history pages. Teacher review v1 is correctness-only: mom marks answers correct/incorrect, with no written feedback/comment UI. Student page can refresh the same assignment link and load its own attempt review state through student-attempt-status, then highlight answers by pending/correct/incorrect. New Edge Functions to deploy: review-answer and student-attempt-status. Existing proven flow remains PASS. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "note": "The student page was patched so a successful submit immediately displays a pending review block and keeps attemptId in the URL, instead of letting a missing student-attempt-status function overwrite the successful submit with a misleading empty state. Remaining work: create/deploy Edge Function student-attempt-status with Verify JWT OFF, then refresh the student page after mom marks correct/incorrect. Existing proven student submit and teacher visibility remain PASS."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
