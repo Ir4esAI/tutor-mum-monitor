@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T13:03:00Z",
+  "generatedAtUtc": "2026-09-03T13:08:00Z",
   "product": {
     "state": "PAUSE",
-    "label": "EDGE FUNCTION СОЗДАНА — НУЖЕН SMOKE TEST",
+    "label": "EDGE FUNCTION SMOKE PASS — НУЖЕН LIVE ROUNDTRIP",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User reported submit-attempt Edge Function was created in Supabase Dashboard",
-    "progress": "16/16 + SQL phase 1 done + Edge Function created; smoke test pending",
-    "lastCompleted": "supabase-edge-function-created-user-reported",
-    "acting": "user/supabase-function-test",
+    "reason": "User screenshot shows submit-attempt returns invalid_assignment_token for dummy token, which proves function routing/JWT/env/table lookup path is alive",
+    "progress": "16/16 + SQL phase 1 done + Edge Function smoke pass; live roundtrip pending",
+    "lastCompleted": "supabase-edge-function-smoke-pass-user-reported",
+    "acting": "user/supabase-sql-seed-and-function-test",
     "needsUserAction": true,
-    "note": "SQL phase 1 applied and submit-attempt function reportedly created. Next step is Dashboard smoke test with dummy assignment token. Expected safe result is invalid_assignment_token; JWT error means Verify JWT is still enabled; server_configuration_error means function environment is missing server-side Supabase variables. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "note": "Next controlled step: run SUPABASE_SMOKE_SEED_PHASE3.sql in SQL Editor, copy only the returned assignment_token_to_use_once into the Function Test body, and expect submitted:true with attemptId. Do not paste privileged keys into browser/GitHub/public monitor/chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
