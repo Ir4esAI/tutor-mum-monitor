@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T14:10:00Z",
+  "generatedAtUtc": "2026-09-03T14:16:00Z",
   "product": {
-    "state": "PAUSE",
-    "label": "BROWSER STUDENT SUBMIT PASS — TEACHER REVIEW PENDING",
+    "state": "PASS",
+    "label": "STUDENT SUBMIT + TEACHER REVIEW PASS",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User screenshot shows the public student smoke page submitted successfully and displayed an attemptId",
-    "progress": "16/16 + backend clean pass + public student page browser submit pass; teacher review query pending",
-    "lastCompleted": "browser-student-submit-smoke-pass-user-reported",
-    "acting": "user/teacher-review-query-next",
-    "needsUserAction": true,
-    "note": "Student-side browser submit is proven without a student account/cabinet: personal link activates hidden technical token, page starts clean, sends one attempt to submit-attempt, and displays only submission status + attemptId. Next step is teacher-side verification: run SUPABASE_TEACHER_RESULTS_REVIEW_QUERY.sql in Supabase SQL Editor and confirm the latest answer appears for teacher review. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "reason": "User screenshot shows the teacher results SQL report includes the browser-submitted student attempt",
+    "progress": "16/16 + backend clean pass + public student page browser submit pass + teacher review query pass",
+    "lastCompleted": "student-submit-teacher-review-pass-user-reported",
+    "acting": "chatgpt/teacher-review-ui-next",
+    "needsUserAction": false,
+    "note": "MVP flow is proven end-to-end without student accounts: personal student link opens a clean submit-only page, submit-attempt stores attempts/answers in Supabase, and the teacher-side review query shows the submitted result. Next product layer is a protected teacher review page backed by a read-only Edge Function, not SQL Editor. Do not paste privileged keys into browser/GitHub/public monitor/chat."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
