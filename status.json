@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T13:37:00Z",
+  "generatedAtUtc": "2026-09-03T13:50:00Z",
   "product": {
     "state": "PASS",
-    "label": "SUPABASE LIVE ROUNDTRIP PASS",
+    "label": "CLEAN SUPABASE SUBMIT PASS",
     "generation": 78,
     "stage": null,
     "item": null,
     "attempt": null,
-    "reason": "User reported submit-attempt live test returned submitted:true with attemptId after service_role grants fix",
-    "progress": "16/16 + SQL phase 1 done + Edge Function deployed + live roundtrip pass",
-    "lastCompleted": "supabase-live-roundtrip-pass-user-reported",
-    "acting": "chatgpt/revert-diagnostic-next",
-    "needsUserAction": true,
-    "note": "End-to-end Supabase path is proven: test assignment token resolved by hash, Edge Function inserted attempt and answer, and returned attemptId. Next cleanup step: redeploy the non-diagnostic submit-attempt function so debug fields are not returned in production-like responses. Do not paste privileged keys into browser/GitHub/public monitor/chat."
+    "reason": "User redeployed the non-diagnostic submit-attempt function and reported submitted:true with attemptId and no debug field",
+    "progress": "16/16 + SQL phase 1 done + Edge Function deployed + grants fixed + clean live roundtrip pass",
+    "lastCompleted": "supabase-clean-submit-pass-user-reported",
+    "acting": "chatgpt/frontend-live-wiring-next",
+    "needsUserAction": false,
+    "note": "Production-like Supabase submit path is proven: assignment token resolved by hash, submit-attempt inserted attempt and answer, and response no longer exposes debug. Next work item is frontend live wiring: connect a student page smoke flow to the live Supabase project using only URL + publishable key, with no privileged keys, no student login, and no raw token persistence."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
