@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "projectId": "tutor-mum",
-  "generatedAtUtc": "2026-09-03T12:48:20Z",
+  "generatedAtUtc": "2026-09-03T12:56:14Z",
   "product": {
-    "state": "RUNNING",
-    "label": "NON-ANTIGRAVITY REMOTE-ЭТАП",
+    "state": "PAUSE",
+    "label": "REMOTE ROADMAP ЗАВЕРШЁН",
     "generation": 78,
-    "stage": "teacher-page-remote-results-g0078",
-    "item": "teacher-page-remote-results",
-    "attempt": 1,
-    "reason": "student page remote submit completed; teacher remote results stage is executing",
-    "progress": "15/16",
-    "lastCompleted": "student-page-remote-submit",
-    "acting": "codex/github-actions",
-    "needsUserAction": false,
-    "note": "Student runtime page уже подключена к remote submit через адаптер, сохранив no-login и clean-session. Сейчас выполняется последний bounded stage remote-roadmap: teacher page remote results/history. Antigravity запрещён для обычной product execution."
+    "stage": null,
+    "item": null,
+    "attempt": null,
+    "reason": "Supabase remote runtime roadmap completed; queue_empty after teacher-page-remote-results",
+    "progress": "16/16",
+    "lastCompleted": "teacher-page-remote-results",
+    "acting": "user/deploy-next",
+    "needsUserAction": true,
+    "note": "Repository-proven Supabase remote runtime pilot завершён: schema/RLS migration, submit-attempt Edge Function, remote storage adapter, student remote submit and teacher remote results seam are in autonomy-v6. Следующий шаг — контролируемый Supabase deploy/configuration, без service_role в браузере и без публикации приватного repo."
   },
   "maintenance": {
     "state": "IN_PROGRESS",
