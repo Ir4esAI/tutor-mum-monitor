@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chat Monitor — mobile-safe mockup</title>
+<style>
+:root{--bg:#f5f6f8;--panel:#fff;--text:#1a1d22;--muted:#737b86;--line:#e2e5e9;--soft:#eef1f4;--green:#2ca06b;--amber:#dc9f24;--red:#d85050;--ink:#1c1f24;--shadow:0 6px 20px rgba(20,25,35,.055)}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+button,input,select{font:inherit}.app{max-width:1500px;margin:auto;padding:14px 16px 28px}
+header{padding:4px 0 10px}.topline{display:flex;align-items:center;gap:10px;flex-wrap:wrap}h1{font-size:25px;margin:0;letter-spacing:-.03em}.stat{font-size:11px;color:var(--muted)}.grow{flex:1}
+.search{width:min(360px,100%);border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 10px;font-size:12px}
+.controls,.view-tabs{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.pill,.view-label{border:1px solid var(--line);background:#fff;color:#616975;padding:6px 9px;border-radius:999px;font-size:10px;font-weight:760}
+.pill.active,.view-label.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.global{display:flex;align-items:center;gap:7px;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:7px 9px;margin:4px 0 12px}
+.global strong{font-size:10px;white-space:nowrap}.global a{font-size:10px;text-decoration:none;color:#333a44;border:1px solid var(--line);border-radius:999px;padding:5px 8px;white-space:nowrap;background:#fafbfc}
+.project{margin:12px 0 16px}.project h2{margin:0 2px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#5d6470}.project h2 small,.matrix-label small,.band-head small{font-size:9px;color:#9aa0a9;margin-left:4px}
+.rows{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.row{display:grid;grid-template-columns:minmax(240px,2fr) minmax(120px,.9fr) minmax(180px,1.3fr) 58px 28px;gap:8px;align-items:center;padding:7px 9px;border-top:1px solid var(--line);min-height:42px}
+.row:first-child{border-top:0}.titleline{display:flex;align-items:center;gap:5px;min-width:0}.chat-title{font-size:12px;font-weight:790;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:inherit;text-decoration:none}.chat-title:hover{text-decoration:underline}
+.star{color:#d59a18}.projpin{font-size:10px}.mini-btn,.dots{border:0;background:transparent;color:#8d949e;padding:2px 3px;font-size:10px;border-radius:5px}.dots{font-weight:800}
+.meta{display:flex;align-items:center;gap:4px;flex-wrap:wrap}.chip{display:inline-flex;align-items:center;padding:3px 6px;border-radius:999px;background:var(--soft);font-size:9px;font-weight:750;color:#4f5660;white-space:nowrap}
+.chip.live{background:#e8f7ef;color:#176944}.chip.wait{background:#fff2d4;color:#775600}.chip.pause{background:#eceef2;color:#686f79}.chip.suggest{background:#eaf2ff;color:#315f9e;border:1px dashed #8daed8}
+.state{font-size:10px;color:#414852;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.load{display:inline-flex;gap:2px;align-items:center}.bar{width:7px;height:12px;border-radius:2px;background:#dfe3e7}.bar.g{background:var(--green)}.bar.a{background:var(--amber)}.bar.r{background:var(--red)}
+.stale{box-shadow:inset 3px 0 0 #e2b344!important;background:linear-gradient(90deg,#fff9ea 0,#fff 9%)}
+.ribbons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.tile{background:#fff;border:1px solid var(--line);border-radius:11px;padding:8px 9px}.tiletop,.tilebottom,.cardtop,.cardstate{display:flex;align-items:center;gap:6px}.tiletop .titleline,.cardtop .titleline{flex:1}.tilebottom{margin-top:6px}.tilebottom .state,.cardstate span{flex:1}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:7px;min-height:90px}.cardstate{margin-top:auto}
+.matrix{display:grid;grid-template-columns:145px 1fr;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}.matrix-label{background:#f7f8fa;border-bottom:1px solid var(--line);padding:9px;font-size:10px;font-weight:850}.matrix-content{border-bottom:1px solid var(--line);padding:7px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.bands{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}.band{border-top:1px solid var(--line)}.band:first-child{border-top:0}.band-head{background:#f7f8fa;padding:8px 9px;font-size:10px;font-weight:850}.band-body{display:flex;gap:7px;flex-wrap:wrap;padding:7px}.band-body .tile{flex:1 1 330px;max-width:480px}
+.view-radio{position:absolute;opacity:0;pointer-events:none}.view{display:none}
+#v1:checked ~ .main #dense{display:block}#v2:checked ~ .main #ribbons{display:block}#v3:checked ~ .main #cards{display:block}#v4:checked ~ .main #matrix{display:block}#v5:checked ~ .main #bands{display:block}
+#v1:checked ~ .head label[for=v1],#v2:checked ~ .head label[for=v2],#v3:checked ~ .head label[for=v3],#v4:checked ~ .head label[for=v4],#v5:checked ~ .head label[for=v5]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.inline-edit{border:1px solid #aebed2;border-radius:6px;padding:2px 5px;font-size:11px;min-width:180px}
+@media(max-width:1050px){.cards,.matrix-content{grid-template-columns:repeat(2,minmax(0,1fr))}.ribbons{grid-template-columns:1fr}.row{grid-template-columns:minmax(220px,2fr) minmax(110px,1fr) 58px 28px}.row .state{display:none}}
+@media(max-width:700px){
+ .app{padding:10px 10px 24px}h1{font-size:21px}.topline{align-items:flex-start}.search{width:100%;order:10}
+ .controls{gap:5px}.pill,.view-label{font-size:10px;padding:6px 8px}.view-tabs{gap:5px}
+ .global{margin-top:2px}.project{margin-top:10px}
+ .row{grid-template-columns:minmax(0,1fr) 52px 26px;grid-template-areas:"title load menu" "meta meta menu" "state state menu";gap:5px 7px;padding:8px}
+ .row .titleline{grid-area:title}.row .meta{grid-area:meta}.row .state{display:block;grid-area:state}.row .load{grid-area:load}.row .dots{grid-area:menu}
+ .ribbons,.cards,.matrix-content{grid-template-columns:1fr}.tile{padding:9px}.matrix{grid-template-columns:1fr}.matrix-label{border-bottom:0;padding-bottom:4px}.matrix-content{padding-top:4px}
+ .chat-title{font-size:12px}.state{font-size:10px}.bar{width:7px;height:13px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <input class="view-radio" type="radio" name="view" id="v1" checked>
+  <input class="view-radio" type="radio" name="view" id="v2">
+  <input class="view-radio" type="radio" name="view" id="v3">
+  <input class="view-radio" type="radio" name="view" id="v4">
+  <input class="view-radio" type="radio" name="view" id="v5">
+
+  <div class="head">
+    <header>
+      <div class="topline">
+        <h1>Chat Monitor</h1><span class="stat">16 активных</span><div class="grow"></div>
+        <input class="search" placeholder="Поиск по активным чатам…">
+      </div>
+      <div class="controls">
+        <span class="pill active">Все</span><span class="pill">Inbox</span><span class="pill">Ждём</span><span class="pill">Пауза</span><span class="pill">Подсвеченные</span>
+        <span class="pill">Все проекты ▾</span><span class="pill">Все категории ▾</span>
+      </div>
+      <div class="view-tabs">
+        <label class="view-label" for="v1">1 · Строки</label>
+        <label class="view-label" for="v2">2 · Две колонки</label>
+        <label class="view-label" for="v3">3 · Карточки</label>
+        <label class="view-label" for="v4">4 · Матрица</label>
+        <label class="view-label" for="v5">5 · Полосы</label>
+      </div>
+    </header>
+    <div class="global"><strong>★ Глобальные</strong><a href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6a798e5a-1020-83eb-849c-994a8c7c76ec">Перепроверить нормы взыскания</a><a href="https://chatgpt.com/g/g-p-6a5beef172fc8191b6abc55be6808782-realizatsiia-idei/c/6a8a3c96-e9e8-83eb-a457-57d7f11a6aba">План разработки проекта</a><a href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d/c/6ab8cecd-1838-83ed-a71e-b7b2f167f8f9">Аудит репозитория и Finish</a><a href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d-organizatsiia-raboty/c/6ab8853a-31ac-83ed-b428-6b2b56121b4e">Монитор активных чатов</a><a href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a9805b8-b068-83ed-9af6-029779ac7157">Проверка разработки упражнений</a><a href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a972f8b-ca10-83eb-8e49-2a3f76f84ce1">Разработка страницы / preview</a></div>
+  </div>
+
+  <div class="main">
+    <div class="view" id="dense"><section class="project"><h2>📥 Inbox <small>2</small></h2><div class="rows"><div class="row ">
+      <div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5/c/6ab3df12-97d4-83ed-b943-feae225e6c78">Новый активный чат — разобрать</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip suggest">⚙️ Автоматизация ?</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Назначить проект и категорию</div>
+      <span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row ">
+      <div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5-couples-language/c/6a985c0b-f274-83eb-9c8e-dd5e60ef3ef8">Couples Language — упражнения RU↔NO</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip suggest">🧩 Методика ?</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Назначить проект и категорию</div>
+      <span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div></div></section><section class="project"><h2>Организация работы <small>2</small></h2><div class="rows"><div class="row ">
+      <div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d/c/6ab8cecd-1838-83ed-a71e-b7b2f167f8f9">Аудит репозитория и Finish</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">🛠 Диагностика</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Закрыть оставшиеся конфликты</div>
+      <span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row ">
+      <div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d-organizatsiia-raboty/c/6ab8853a-31ac-83ed-b428-6b2b56121b4e">Монитор активных чатов</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Согласовать визуальный интерфейс</div>
+      <span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div></div></section><section class="project"><h2>Учебники маме <small>4</small></h2><div class="rows"><div class="row ">
+      <div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6ab87a25-bac4-83ed-9ffb-8e3f83c3ee65">Создание иллюстраций для видео</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">🎨 Визуал</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Подготовить следующую сцену</div>
+      <span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row ">
+      <div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a9805b8-b068-83ed-9af6-029779ac7157">Проверка разработки упражнений</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Перепроверить composer awareness</div>
+      <span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row ">
+      <div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a972f8b-ca10-83eb-8e49-2a3f76f84ce1">Разработка страницы / preview</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Исправить мобильную компоновку</div>
+      <span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row stale">
+      <div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408/c/6a900289-4e9c-83ed-b8bb-f2dd05d5a1cd">Упражнения Starlight 11</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">🧩 Методика</span><span class="chip pause">⏸</span></div>
+      <div class="state">⏸ Вернуться после preview</div>
+      <span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div></div></section><section class="project"><h2>Уделываем Яндекс <small>3</small></h2><div class="rows"><div class="row ">
+      <div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6a798e5a-1020-83eb-849c-994a8c7c76ec">Перепроверить нормы взыскания</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">🔎 Исследование</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Сопоставить нормы и доказательства</div>
+      <span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row ">
+      <div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadddce-3f5c-83eb-b6e3-ce80d9ce8c24">Корректировка письма 2</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Усилить нормативную часть</div>
+      <span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row stale">
+      <div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadfb2d-8794-83ed-ba00-cb554cb4e9d5">Архивация документа «Письмо 1»</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">🗂 Организация</span><span class="chip wait">⏳</span></div>
+      <div class="state">⏳ Ждём следующего пакета правок</div>
+      <span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div></div></section><section class="project"><h2>Составление текстов <small>4</small></h2><div class="rows"><div class="row stale">
+      <div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5513f-8808-83eb-a552-38179ce0cacc">ФССП — основания жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip pause">⏸</span></div>
+      <div class="state">⏸ Пауза до новых фактов</div>
+      <span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row ">
+      <div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5858b-b62c-83ed-9f58-31b5a1c5f495">Роскомнадзор — редактура жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Ужать формулировки без потери смысла</div>
+      <span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row stale">
+      <div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab56433-c894-83eb-a517-0e2177b94656">Письмо 3.1 — финальная редакция</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip wait">⏳</span></div>
+      <div class="state">⏳ Ждём проверки финальной версии</div>
+      <span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div><div class="row ">
+      <div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab3db6a-1e5c-83eb-a36a-38b68844ac2c">Письмо 4 — правки</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Свести новые аргументы</div>
+      <span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div></div></section><section class="project"><h2>Реализация идеи <small>1</small></h2><div class="rows"><div class="row ">
+      <div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a5beef172fc8191b6abc55be6808782-realizatsiia-idei/c/6a8a3c96-e9e8-83eb-a457-57d7f11a6aba">План разработки проекта</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div>
+      <div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div>
+      <div class="state">▶ Зафиксировать архитектуру перед кодом</div>
+      <span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span>
+      <button class="dots" type="button">•••</button>
+    </div></div></section></div>
+    <div class="view" id="ribbons"><section class="project"><h2>📥 Inbox <small>2</small></h2><div class="ribbons"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5/c/6ab3df12-97d4-83ed-b943-feae225e6c78">Новый активный чат — разобрать</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip suggest">⚙️ Автоматизация ?</span><span class="chip live">▶</span></div><div class="state">▶ Назначить проект и категорию</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5-couples-language/c/6a985c0b-f274-83eb-9c8e-dd5e60ef3ef8">Couples Language — упражнения RU↔NO</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip suggest">🧩 Методика ?</span><span class="chip live">▶</span></div><div class="state">▶ Назначить проект и категорию</div><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Организация работы <small>2</small></h2><div class="ribbons"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d/c/6ab8cecd-1838-83ed-a71e-b7b2f167f8f9">Аудит репозитория и Finish</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🛠 Диагностика</span><span class="chip live">▶</span></div><div class="state">▶ Закрыть оставшиеся конфликты</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d-organizatsiia-raboty/c/6ab8853a-31ac-83ed-b428-6b2b56121b4e">Монитор активных чатов</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div><div class="state">▶ Согласовать визуальный интерфейс</div><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Учебники маме <small>4</small></h2><div class="ribbons"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6ab87a25-bac4-83ed-9ffb-8e3f83c3ee65">Создание иллюстраций для видео</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🎨 Визуал</span><span class="chip live">▶</span></div><div class="state">▶ Подготовить следующую сцену</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a9805b8-b068-83ed-9af6-029779ac7157">Проверка разработки упражнений</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div><div class="state">▶ Перепроверить composer awareness</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a972f8b-ca10-83eb-8e49-2a3f76f84ce1">Разработка страницы / preview</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div><div class="state">▶ Исправить мобильную компоновку</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile stale">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408/c/6a900289-4e9c-83ed-b8bb-f2dd05d5a1cd">Упражнения Starlight 11</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🧩 Методика</span><span class="chip pause">⏸</span></div><div class="state">⏸ Вернуться после preview</div><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Уделываем Яндекс <small>3</small></h2><div class="ribbons"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6a798e5a-1020-83eb-849c-994a8c7c76ec">Перепроверить нормы взыскания</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🔎 Исследование</span><span class="chip live">▶</span></div><div class="state">▶ Сопоставить нормы и доказательства</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadddce-3f5c-83eb-b6e3-ce80d9ce8c24">Корректировка письма 2</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div><div class="state">▶ Усилить нормативную часть</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile stale">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadfb2d-8794-83ed-ba00-cb554cb4e9d5">Архивация документа «Письмо 1»</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🗂 Организация</span><span class="chip wait">⏳</span></div><div class="state">⏳ Ждём следующего пакета правок</div><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Составление текстов <small>4</small></h2><div class="ribbons"><div class="tile stale">
+      <div class="tiletop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5513f-8808-83eb-a552-38179ce0cacc">ФССП — основания жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip pause">⏸</span></div><div class="state">⏸ Пауза до новых фактов</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5858b-b62c-83ed-9f58-31b5a1c5f495">Роскомнадзор — редактура жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div><div class="state">▶ Ужать формулировки без потери смысла</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile stale">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab56433-c894-83eb-a517-0e2177b94656">Письмо 3.1 — финальная редакция</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip wait">⏳</span></div><div class="state">⏳ Ждём проверки финальной версии</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab3db6a-1e5c-83eb-a36a-38b68844ac2c">Письмо 4 — правки</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div><div class="state">▶ Свести новые аргументы</div><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Реализация идеи <small>1</small></h2><div class="ribbons"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a5beef172fc8191b6abc55be6808782-realizatsiia-idei/c/6a8a3c96-e9e8-83eb-a457-57d7f11a6aba">План разработки проекта</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div><div class="state">▶ Зафиксировать архитектуру перед кодом</div><button class="dots" type="button">•••</button></div>
+    </div></div></section></div>
+    <div class="view" id="cards"><section class="project"><h2>📥 Inbox <small>2</small></h2><div class="cards"><div class="card ">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5/c/6ab3df12-97d4-83ed-b943-feae225e6c78">Новый активный чат — разобрать</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip suggest">⚙️ Автоматизация ?</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Назначить проект и категорию</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5-couples-language/c/6a985c0b-f274-83eb-9c8e-dd5e60ef3ef8">Couples Language — упражнения RU↔NO</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip suggest">🧩 Методика ?</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Назначить проект и категорию</span><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Организация работы <small>2</small></h2><div class="cards"><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d/c/6ab8cecd-1838-83ed-a71e-b7b2f167f8f9">Аудит репозитория и Finish</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="meta"><span class="chip ">🛠 Диагностика</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Закрыть оставшиеся конфликты</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d-organizatsiia-raboty/c/6ab8853a-31ac-83ed-b428-6b2b56121b4e">Монитор активных чатов</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Согласовать визуальный интерфейс</span><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Учебники маме <small>4</small></h2><div class="cards"><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6ab87a25-bac4-83ed-9ffb-8e3f83c3ee65">Создание иллюстраций для видео</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🎨 Визуал</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Подготовить следующую сцену</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a9805b8-b068-83ed-9af6-029779ac7157">Проверка разработки упражнений</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Перепроверить composer awareness</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a972f8b-ca10-83eb-8e49-2a3f76f84ce1">Разработка страницы / preview</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Исправить мобильную компоновку</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card stale">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408/c/6a900289-4e9c-83ed-b8bb-f2dd05d5a1cd">Упражнения Starlight 11</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🧩 Методика</span><span class="chip pause">⏸</span></div>
+      <div class="cardstate"><span>⏸ Вернуться после preview</span><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Уделываем Яндекс <small>3</small></h2><div class="cards"><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6a798e5a-1020-83eb-849c-994a8c7c76ec">Перепроверить нормы взыскания</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🔎 Исследование</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Сопоставить нормы и доказательства</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadddce-3f5c-83eb-b6e3-ce80d9ce8c24">Корректировка письма 2</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Усилить нормативную часть</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card stale">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadfb2d-8794-83ed-ba00-cb554cb4e9d5">Архивация документа «Письмо 1»</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🗂 Организация</span><span class="chip wait">⏳</span></div>
+      <div class="cardstate"><span>⏳ Ждём следующего пакета правок</span><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Составление текстов <small>4</small></h2><div class="cards"><div class="card stale">
+      <div class="cardtop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5513f-8808-83eb-a552-38179ce0cacc">ФССП — основания жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip pause">⏸</span></div>
+      <div class="cardstate"><span>⏸ Пауза до новых фактов</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5858b-b62c-83ed-9f58-31b5a1c5f495">Роскомнадзор — редактура жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Ужать формулировки без потери смысла</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card stale">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab56433-c894-83eb-a517-0e2177b94656">Письмо 3.1 — финальная редакция</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip wait">⏳</span></div>
+      <div class="cardstate"><span>⏳ Ждём проверки финальной версии</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab3db6a-1e5c-83eb-a36a-38b68844ac2c">Письмо 4 — правки</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Свести новые аргументы</span><button class="dots" type="button">•••</button></div>
+    </div></div></section><section class="project"><h2>Реализация идеи <small>1</small></h2><div class="cards"><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a5beef172fc8191b6abc55be6808782-realizatsiia-idei/c/6a8a3c96-e9e8-83eb-a457-57d7f11a6aba">План разработки проекта</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Зафиксировать архитектуру перед кодом</span><button class="dots" type="button">•••</button></div>
+    </div></div></section></div>
+    <div class="view" id="matrix"><div class="matrix"><div class="matrix-label">📥 Inbox <small>2</small></div><div class="matrix-content"><div class="card ">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5/c/6ab3df12-97d4-83ed-b943-feae225e6c78">Новый активный чат — разобрать</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip suggest">⚙️ Автоматизация ?</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Назначить проект и категорию</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5-couples-language/c/6a985c0b-f274-83eb-9c8e-dd5e60ef3ef8">Couples Language — упражнения RU↔NO</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip suggest">🧩 Методика ?</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Назначить проект и категорию</span><button class="dots" type="button">•••</button></div>
+    </div></div><div class="matrix-label">Организация работы <small>2</small></div><div class="matrix-content"><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d/c/6ab8cecd-1838-83ed-a71e-b7b2f167f8f9">Аудит репозитория и Finish</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="meta"><span class="chip ">🛠 Диагностика</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Закрыть оставшиеся конфликты</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d-organizatsiia-raboty/c/6ab8853a-31ac-83ed-b428-6b2b56121b4e">Монитор активных чатов</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Согласовать визуальный интерфейс</span><button class="dots" type="button">•••</button></div>
+    </div></div><div class="matrix-label">Учебники маме <small>4</small></div><div class="matrix-content"><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6ab87a25-bac4-83ed-9ffb-8e3f83c3ee65">Создание иллюстраций для видео</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🎨 Визуал</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Подготовить следующую сцену</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a9805b8-b068-83ed-9af6-029779ac7157">Проверка разработки упражнений</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Перепроверить composer awareness</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a972f8b-ca10-83eb-8e49-2a3f76f84ce1">Разработка страницы / preview</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Исправить мобильную компоновку</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card stale">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408/c/6a900289-4e9c-83ed-b8bb-f2dd05d5a1cd">Упражнения Starlight 11</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🧩 Методика</span><span class="chip pause">⏸</span></div>
+      <div class="cardstate"><span>⏸ Вернуться после preview</span><button class="dots" type="button">•••</button></div>
+    </div></div><div class="matrix-label">Уделываем Яндекс <small>3</small></div><div class="matrix-content"><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6a798e5a-1020-83eb-849c-994a8c7c76ec">Перепроверить нормы взыскания</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🔎 Исследование</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Сопоставить нормы и доказательства</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadddce-3f5c-83eb-b6e3-ce80d9ce8c24">Корректировка письма 2</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Усилить нормативную часть</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card stale">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadfb2d-8794-83ed-ba00-cb554cb4e9d5">Архивация документа «Письмо 1»</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🗂 Организация</span><span class="chip wait">⏳</span></div>
+      <div class="cardstate"><span>⏳ Ждём следующего пакета правок</span><button class="dots" type="button">•••</button></div>
+    </div></div><div class="matrix-label">Составление текстов <small>4</small></div><div class="matrix-content"><div class="card stale">
+      <div class="cardtop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5513f-8808-83eb-a552-38179ce0cacc">ФССП — основания жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip pause">⏸</span></div>
+      <div class="cardstate"><span>⏸ Пауза до новых фактов</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5858b-b62c-83ed-9f58-31b5a1c5f495">Роскомнадзор — редактура жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Ужать формулировки без потери смысла</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card stale">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab56433-c894-83eb-a517-0e2177b94656">Письмо 3.1 — финальная редакция</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip wait">⏳</span></div>
+      <div class="cardstate"><span>⏳ Ждём проверки финальной версии</span><button class="dots" type="button">•••</button></div>
+    </div><div class="card ">
+      <div class="cardtop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab3db6a-1e5c-83eb-a36a-38b68844ac2c">Письмо 4 — правки</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Свести новые аргументы</span><button class="dots" type="button">•••</button></div>
+    </div></div><div class="matrix-label">Реализация идеи <small>1</small></div><div class="matrix-content"><div class="card ">
+      <div class="cardtop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a5beef172fc8191b6abc55be6808782-realizatsiia-idei/c/6a8a3c96-e9e8-83eb-a457-57d7f11a6aba">План разработки проекта</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div>
+      <div class="cardstate"><span>▶ Зафиксировать архитектуру перед кодом</span><button class="dots" type="button">•••</button></div>
+    </div></div></div></div>
+    <div class="view" id="bands"><div class="bands"><div class="band"><div class="band-head">📥 Inbox <small>2</small></div><div class="band-body"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5/c/6ab3df12-97d4-83ed-b943-feae225e6c78">Новый активный чат — разобрать</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip suggest">⚙️ Автоматизация ?</span><span class="chip live">▶</span></div><div class="state">▶ Назначить проект и категорию</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6aa64cea1c408191a7671ec2960d8df5-couples-language/c/6a985c0b-f274-83eb-9c8e-dd5e60ef3ef8">Couples Language — упражнения RU↔NO</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip suggest">🧩 Методика ?</span><span class="chip live">▶</span></div><div class="state">▶ Назначить проект и категорию</div><button class="dots" type="button">•••</button></div>
+    </div></div></div><div class="band"><div class="band-head">Организация работы <small>2</small></div><div class="band-body"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d/c/6ab8cecd-1838-83ed-a71e-b7b2f167f8f9">Аудит репозитория и Finish</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🛠 Диагностика</span><span class="chip live">▶</span></div><div class="state">▶ Закрыть оставшиеся конфликты</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a9a77c9cf08819182efa5abddb5607d-organizatsiia-raboty/c/6ab8853a-31ac-83ed-b428-6b2b56121b4e">Монитор активных чатов</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div><div class="state">▶ Согласовать визуальный интерфейс</div><button class="dots" type="button">•••</button></div>
+    </div></div></div><div class="band"><div class="band-head">Учебники маме <small>4</small></div><div class="band-body"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6ab87a25-bac4-83ed-9ffb-8e3f83c3ee65">Создание иллюстраций для видео</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🎨 Визуал</span><span class="chip live">▶</span></div><div class="state">▶ Подготовить следующую сцену</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a9805b8-b068-83ed-9af6-029779ac7157">Проверка разработки упражнений</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div><div class="state">▶ Перепроверить composer awareness</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408-uchebniki-mame/c/6a972f8b-ca10-83eb-8e49-2a3f76f84ce1">Разработка страницы / preview</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">💻 Разработка</span><span class="chip live">▶</span></div><div class="state">▶ Исправить мобильную компоновку</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile stale">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a8e5fe8af008191a57934d72f2aa408/c/6a900289-4e9c-83ed-b8bb-f2dd05d5a1cd">Упражнения Starlight 11</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🧩 Методика</span><span class="chip pause">⏸</span></div><div class="state">⏸ Вернуться после preview</div><button class="dots" type="button">•••</button></div>
+    </div></div></div><div class="band"><div class="band-head">Уделываем Яндекс <small>3</small></div><div class="band-body"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6a798e5a-1020-83eb-849c-994a8c7c76ec">Перепроверить нормы взыскания</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🔎 Исследование</span><span class="chip live">▶</span></div><div class="state">▶ Сопоставить нормы и доказательства</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadddce-3f5c-83eb-b6e3-ce80d9ce8c24">Корректировка письма 2</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 4/4"><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i><i class="bar r"></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div><div class="state">▶ Усилить нормативную часть</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile stale">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a625cae357081918f672c62c7302bae-udelyvaem-iandeks/c/6aadfb2d-8794-83ed-ba00-cb554cb4e9d5">Архивация документа «Письмо 1»</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🗂 Организация</span><span class="chip wait">⏳</span></div><div class="state">⏳ Ждём следующего пакета правок</div><button class="dots" type="button">•••</button></div>
+    </div></div></div><div class="band"><div class="band-head">Составление текстов <small>4</small></div><div class="band-body"><div class="tile stale">
+      <div class="tiletop"><div class="titleline"><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5513f-8808-83eb-a552-38179ce0cacc">ФССП — основания жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip pause">⏸</span></div><div class="state">⏸ Пауза до новых фактов</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab5858b-b62c-83ed-9f58-31b5a1c5f495">Роскомнадзор — редактура жалобы</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 2/4"><i class="bar g"></i><i class="bar g"></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div><div class="state">▶ Ужать формулировки без потери смысла</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile stale">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab56433-c894-83eb-a517-0e2177b94656">Письмо 3.1 — финальная редакция</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip wait">⏳</span></div><div class="state">⏳ Ждём проверки финальной версии</div><button class="dots" type="button">•••</button></div>
+    </div><div class="tile ">
+      <div class="tiletop"><div class="titleline"><a class="chat-title" href="https://chatgpt.com/g/g-p-6a820f42e6a8819193b0c525eea6d5fa-sostavlenie-tekstov/c/6ab3db6a-1e5c-83eb-a36a-38b68844ac2c">Письмо 4 — правки</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 1/4"><i class="bar g"></i><i class="bar "></i><i class="bar "></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">✍️ Текст</span><span class="chip live">▶</span></div><div class="state">▶ Свести новые аргументы</div><button class="dots" type="button">•••</button></div>
+    </div></div></div><div class="band"><div class="band-head">Реализация идеи <small>1</small></div><div class="band-body"><div class="tile ">
+      <div class="tiletop"><div class="titleline"><span class="star" title="Глобальный закреп">★</span><span class="projpin" title="Закреплён внутри проекта">📌</span><a class="chat-title" href="https://chatgpt.com/g/g-p-6a5beef172fc8191b6abc55be6808782-realizatsiia-idei/c/6a8a3c96-e9e8-83eb-a457-57d7f11a6aba">План разработки проекта</a><button class="mini-btn edit" type="button" title="Переименовать в Monitor">✎</button></div><span class="load" title="Нагрузка 3/4"><i class="bar a"></i><i class="bar a"></i><i class="bar a"></i><i class="bar "></i></span></div>
+      <div class="tilebottom"><div class="meta"><span class="chip ">🧭 Планирование</span><span class="chip live">▶</span></div><div class="state">▶ Зафиксировать архитектуру перед кодом</div><button class="dots" type="button">•••</button></div>
+    </div></div></div></div></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Progressive enhancement only. The full monitor remains visible if this script is blocked.
+  let storeOK=true;
+  try{localStorage.setItem('__cm_test','1');localStorage.removeItem('__cm_test')}catch(e){storeOK=false}
+  document.addEventListener('click',function(e){
+    const edit=e.target.closest('.edit');
+    if(edit){
+      const line=edit.closest('.titleline'), a=line&&line.querySelector('.chat-title');
+      if(!a)return;
+      const old=a.textContent, input=document.createElement('input');
+      input.className='inline-edit';input.value=old;a.replaceWith(input);input.focus();input.select();
+      const done=()=>{const n=document.createElement('a');n.className='chat-title';n.href=a.href;n.textContent=input.value.trim()||old;input.replaceWith(n)};
+      input.addEventListener('keydown',ev=>{if(ev.key==='Enter')done();if(ev.key==='Escape'){input.value=old;done()}});
+      input.addEventListener('blur',done,{once:true});
+    }
+  });
+})();
+</script>
+</body>
+</html>
