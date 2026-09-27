@@ -17,6 +17,7 @@ input,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(-
 textarea{min-height:82px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;overflow-wrap:anywhere;word-break:break-all}
 .urlbox{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;user-select:text;-webkit-user-select:text}
 button,a.action{display:block;width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-weight:700;text-align:center;text-decoration:none;margin-top:10px;cursor:pointer}
+.longpress-link{display:block;margin-top:10px;padding:16px;border:2px solid var(--line);border-radius:12px;color:var(--text);background:var(--bg);font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word;-webkit-touch-callout:default;user-select:auto;-webkit-user-select:auto}
 .primary{background:var(--accent)!important;color:var(--bg)!important}.status{margin-top:10px;font-size:14px}.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
 .test{padding:14px 0;border-top:1px solid var(--line)}.test:first-of-type{border-top:0}.badge{display:inline-block;font-size:12px;padding:3px 8px;border-radius:999px;background:var(--bg);color:var(--muted);margin-bottom:6px}
 ul{padding-left:20px;margin:8px 0}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:520px){.result-grid{grid-template-columns:1fr}}
@@ -25,7 +26,7 @@ select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);b
 </head>
 <body>
 <main>
-<h1>Monitor → ChatGPT: тест трёх переходов</h1>
+<h1>Monitor → ChatGPT: тест вариантов перехода</h1>
 <p class="muted">Цель — не проверить, что кнопка вообще нажимается. Цель — понять, какой способ из Monitor надёжно открывает <strong>тот же существующий рабочий чат</strong> и позволяет сразу продолжить диалог.</p>
 
 <section class="card">
@@ -51,7 +52,7 @@ select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);b
 </section>
 
 <section class="card">
-<h2>Три варианта перехода</h2>
+<h2>Варианты перехода</h2>
 
 <div class="test">
 <div class="badge">TEST A — обычная ссылка / этот же контекст</div>
@@ -76,12 +77,21 @@ select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);b
 
 <div class="test">
 <div class="badge">TEST D — принудительно открыть в Chrome на iPhone</div>
-<p><strong>Что проверяет:</strong> Chrome-specific URL scheme. Вместо обычного <code>https://…</code> Monitor передаст тот же адрес как <code>googlechromes://…</code>, чтобы iOS запустила именно Chrome, а не ChatGPT app.</p>
-<button id="testD" type="button">D — открыть принудительно в Chrome</button>
-<p class="small muted">Это iPhone/iPad-сценарий. Chrome может открыть адрес в новой вкладке — нам сейчас важно проверить, что он остаётся в Chrome, сохраняет авторизацию и открывает тот же чат.</p>
+<p><strong>Что проверяет:</strong> Chrome-specific URL scheme. Этот вариант у вас уже показал, что iOS всё равно передаёт ChatGPT-ссылку приложению.</p>
+<button id="testD" type="button">D — повторить принудительный Chrome</button>
+<p class="small muted">Повторять не обязательно: предыдущий результат уже считаем FAIL для задачи «оставаться в браузере».</p>
 </div>
 
-<div id="testStatus" class="status muted">Если ссылка ещё не вставлена, A/B/C/D останутся на этой странице и объяснят, чего не хватает.</div>
+<div class="test">
+<div class="badge">TEST E — длинное нажатие по настоящей ссылке</div>
+<p><strong>Что проверяет:</strong> системное контекстное меню Chrome, а не автоматический переход. Ниже находится настоящий HTML-элемент <code>&lt;a href="…"&gt;</code> с URL вашего чата.</p>
+<p class="small"><strong>На iPhone:</strong> не нажимайте коротко. <strong>Зажмите ссылку пальцем</strong>, дождитесь меню Chrome и выберите «Открыть в новой вкладке» (или максимально близкий пункт).</p>
+<a id="testE" class="longpress-link" href="#" rel="noopener">После вставки URL здесь появится настоящая ссылка на чат — удерживайте её пальцем</a>
+<div id="testEUrl" class="urlbox" style="margin-top:10px">Ссылка для TEST E пока не введена.</div>
+<p class="small muted">PASS: после выбора «Открыть в новой вкладке» чат остаётся в Chrome и не переходит в приложение ChatGPT.</p>
+</div>
+
+<div id="testStatus" class="status muted">Если ссылка ещё не вставлена, A/B/C/D/E останутся на этой странице и объяснят, чего не хватает.</div>
 </section>
 
 <section class="card">
@@ -104,6 +114,7 @@ select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);b
 <option>B — отдельно</option>
 <option>C — window.location</option>
 <option>D — принудительно Chrome</option>
+<option>E — длинное нажатие / новая вкладка</option>
 </select>
 <select id="whereOpened">
 <option>Открылось в Chrome</option>
@@ -129,6 +140,8 @@ const chatStatus=document.getElementById('chatStatus');
 const testStatus=document.getElementById('testStatus');
 const a=document.getElementById('testA');
 const b=document.getElementById('testB');
+const e=document.getElementById('testE');
+const eUrl=document.getElementById('testEUrl');
 let current='';
 
 function parseChat(raw){
@@ -149,8 +162,11 @@ function sync(){
   chatCopy.value=raw;
   a.href=current||'#';
   b.href=current||'#';
+  e.href=current||'#';
+  e.textContent=current ? 'Удерживайте эту ссылку → '+current : 'После вставки URL здесь появится настоящая ссылка на чат — удерживайте её пальцем';
+  eUrl.textContent=current||'Ссылка для TEST E пока не введена.';
   chatStatus.className='status '+(current?'ok':raw?'bad':'muted');
-  chatStatus.textContent=current?'PASS: ссылка распознана. A/B/C готовы к тесту.':raw?'Это не распознано как HTTPS-ссылка ChatGPT.':'После вставки ссылки три теста ниже будут использовать именно её.';
+  chatStatus.textContent=current?'PASS: ссылка распознана. A/B/C/D/E используют именно её.':raw?'Это не распознано как HTTPS-ссылка ChatGPT.':'После вставки ссылки все тесты ниже будут использовать именно её.';
 }
 chatUrl.addEventListener('input',sync); chatUrl.addEventListener('change',sync);
 
@@ -181,6 +197,7 @@ function noUrl(ev){
 }
 a.addEventListener('click',noUrl);
 b.addEventListener('click',noUrl);
+e.addEventListener('click',noUrl);
 document.getElementById('testC').addEventListener('click',function(){
   if(!current){
     testStatus.className='status bad';
