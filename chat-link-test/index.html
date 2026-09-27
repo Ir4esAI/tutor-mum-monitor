@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Monitor — тест ссылки на чат</title>
+<style>
+:root{color-scheme:light dark;--bg:#f4f4f6;--card:#fff;--text:#151515;--muted:#6d6d75;--line:#d9d9df;--accent:#111;--ok:#15743a;--bad:#b42318}
+@media(prefers-color-scheme:dark){:root{--bg:#111113;--card:#1c1c1f;--text:#f6f6f7;--muted:#a6a6af;--line:#38383f;--accent:#fff;--ok:#86efac;--bad:#fca5a5}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif}main{max-width:720px;margin:auto;padding:20px 16px 44px}h1{font-size:24px;line-height:1.15;margin:6px 0 10px}.muted{color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}label{display:block;font-weight:700;margin-bottom:8px}input,textarea,button,a.action{font:inherit}input,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text)}textarea{min-height:90px;resize:vertical;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}button,a.action{display:block;width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-weight:700;text-align:center;text-decoration:none;margin-top:10px}button.primary,a.primary{background:var(--accent);color:var(--bg)}button:disabled,a.disabled{opacity:.42;pointer-events:none}.status{margin-top:9px;font-size:14px}.ok{color:var(--ok)}.bad{color:var(--bad)}.url-view{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;min-height:46px}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}@media(max-width:480px){.row{grid-template-columns:1fr}}.tiny{font-size:13px}.check{padding:11px 0;border-top:1px solid var(--line)}.check:first-child{border-top:0}
+</style>
+</head>
+<body>
+<main>
+<h1>Monitor → ChatGPT</h1>
+<p class="muted">Страница ничего не открывает автоматически. Сначала вставьте ссылку на существующий чат, затем выберите: скопировать её или открыть вручную именно в этом браузере.</p>
+
+<section class="card">
+<label for="chatUrl">Ссылка на существующий чат ChatGPT</label>
+<input id="chatUrl" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://chatgpt.com/c/…">
+<div id="validation" class="status muted">Вставьте ссылку — полная версия сразу появится ниже.</div>
+<div id="fullUrl" class="url-view" aria-live="polite">Здесь будет показана полная ссылка.</div>
+<textarea id="copySource" readonly aria-label="Полная ссылка для ручного копирования" placeholder="Здесь будет полная ссылка для ручного копирования"></textarea>
+
+<div class="row">
+<button id="copyBtn" class="primary" type="button" disabled>Скопировать ссылку</button>
+<button id="selectBtn" type="button" disabled>Выделить целиком</button>
+</div>
+<a id="openBtn" class="action disabled" href="#" target="_self" rel="noopener">Открыть чат в этом браузере</a>
+<div id="actionStatus" class="status muted">Никакого автоматического перехода нет.</div>
+</section>
+
+<section class="card tiny">
+<div class="check"><strong>1.</strong> Полная ссылка должна быть видна целиком в сером блоке и в поле ниже.</div>
+<div class="check"><strong>2.</strong> «Скопировать ссылку» должна класть ровно эту ссылку в буфер.</div>
+<div class="check"><strong>3.</strong> «Открыть чат в этом браузере» срабатывает только по вашему нажатию.</div>
+</section>
+</main>
+<script>
+(function(){
+'use strict';
+const input=document.getElementById('chatUrl');
+const validation=document.getElementById('validation');
+const fullUrl=document.getElementById('fullUrl');
+const copySource=document.getElementById('copySource');
+const copyBtn=document.getElementById('copyBtn');
+const selectBtn=document.getElementById('selectBtn');
+const openBtn=document.getElementById('openBtn');
+const actionStatus=document.getElementById('actionStatus');
+let current='';
+function normalize(raw){
+  const v=String(raw||'').trim();
+  if(!v) return null;
+  try{
+    const u=new URL(v);
+    const host=u.hostname.toLowerCase();
+    if(u.protocol!=='https:' || !['chatgpt.com','www.chatgpt.com','chat.openai.com'].includes(host)) return null;
+    return u.href;
+  }catch(e){return null;}
+}
+function setInvalid(message){
+  current=''; validation.className='status bad'; validation.textContent=message;
+  fullUrl.textContent=input.value.trim()||'Здесь будет показана полная ссылка.';
+  copySource.value=input.value.trim();
+  copyBtn.disabled=true; selectBtn.disabled=true; openBtn.classList.add('disabled'); openBtn.href='#';
+}
+function sync(){
+  const raw=input.value.trim();
+  if(!raw){
+    current=''; validation.className='status muted'; validation.textContent='Вставьте ссылку — полная версия сразу появится ниже.';
+    fullUrl.textContent='Здесь будет показана полная ссылка.'; copySource.value='';
+    copyBtn.disabled=true; selectBtn.disabled=true; openBtn.classList.add('disabled'); openBtn.href='#'; return;
+  }
+  const value=normalize(raw);
+  if(!value){setInvalid('Это не HTTPS-ссылка ChatGPT. Она всё равно показана ниже для проверки.');return;}
+  current=value; validation.className='status ok'; validation.textContent='PASS: ссылка распознана и готова.';
+  fullUrl.textContent=value; copySource.value=value;
+  copyBtn.disabled=false; selectBtn.disabled=false; openBtn.classList.remove('disabled'); openBtn.href=value;
+  actionStatus.className='status muted'; actionStatus.textContent='Никакого автоматического перехода нет.';
+}
+input.addEventListener('input',sync); input.addEventListener('change',sync);
+selectBtn.addEventListener('click',function(){
+  if(!current)return; copySource.focus(); copySource.select(); copySource.setSelectionRange(0,copySource.value.length);
+  actionStatus.className='status ok'; actionStatus.textContent='Ссылка выделена целиком.';
+});
+copyBtn.addEventListener('click',async function(){
+  if(!current)return;
+  let copied=false;
+  try{ if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(current);copied=true;} }catch(e){}
+  if(!copied){
+    copySource.focus(); copySource.select(); copySource.setSelectionRange(0,copySource.value.length);
+    try{copied=document.execCommand('copy');}catch(e){copied=false;}
+  }
+  if(copied){ actionStatus.className='status ok'; actionStatus.textContent='PASS: ссылка скопирована в буфер.'; }
+  else{ actionStatus.className='status bad'; actionStatus.textContent='Автокопирование заблокировано браузером. Ссылка уже выделена целиком — используйте стандартное «Копировать».'; }
+});
+})();
+</script>
+</body>
+</html>
