@@ -3,96 +3,142 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Monitor — тест ссылки на чат</title>
+<title>Monitor — проверка ссылки</title>
 <style>
-:root{color-scheme:light dark;--bg:#f4f4f6;--card:#fff;--text:#151515;--muted:#6d6d75;--line:#d9d9df;--accent:#111;--ok:#15743a;--bad:#b42318}
-@media(prefers-color-scheme:dark){:root{--bg:#111113;--card:#1c1c1f;--text:#f6f6f7;--muted:#a6a6af;--line:#38383f;--accent:#fff;--ok:#86efac;--bad:#fca5a5}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif}main{max-width:720px;margin:auto;padding:20px 16px 44px}h1{font-size:24px;line-height:1.15;margin:6px 0 10px}.muted{color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}label{display:block;font-weight:700;margin-bottom:8px}input,textarea,button,a.action{font:inherit}input,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text)}textarea{min-height:90px;resize:vertical;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}button,a.action{display:block;width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-weight:700;text-align:center;text-decoration:none;margin-top:10px}button.primary,a.primary{background:var(--accent);color:var(--bg)}button:disabled,a.disabled{opacity:.42;pointer-events:none}.status{margin-top:9px;font-size:14px}.ok{color:var(--ok)}.bad{color:var(--bad)}.url-view{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;min-height:46px}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}@media(max-width:480px){.row{grid-template-columns:1fr}}.tiny{font-size:13px}.check{padding:11px 0;border-top:1px solid var(--line)}.check:first-child{border-top:0}
+:root{color-scheme:light dark;--bg:#f4f4f6;--card:#fff;--text:#151515;--muted:#707078;--line:#d9d9df;--accent:#111;--ok:#15743a;--bad:#b42318}
+@media(prefers-color-scheme:dark){:root{--bg:#111113;--card:#1c1c1f;--text:#f6f6f7;--muted:#aaaab2;--line:#3a3a41;--accent:#fff;--ok:#86efac;--bad:#fca5a5}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif}
+main{max-width:720px;margin:auto;padding:20px 16px 44px}
+h1{font-size:24px;line-height:1.15;margin:6px 0 10px}
+h2{font-size:19px;margin:0 0 10px}
+p{margin:8px 0}.muted{color:var(--muted)}.small{font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}
+.urlbox,textarea,input{width:100%;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--text);padding:12px}
+.urlbox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;user-select:text;-webkit-user-select:text}
+textarea{min-height:92px;resize:vertical;font:14px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere;word-break:break-all}
+input{font:inherit}
+button,a.action{display:block;width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-weight:700;text-align:center;text-decoration:none;margin-top:10px;cursor:pointer}
+button.primary,a.primary{background:var(--accent);color:var(--bg)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(max-width:480px){.row{grid-template-columns:1fr}}
+.status{margin-top:10px;font-size:14px}.ok{color:var(--ok)}.bad{color:var(--bad)}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
 </style>
 </head>
 <body>
 <main>
-<h1>Monitor → ChatGPT</h1>
-<p class="muted">Страница ничего не открывает автоматически. Сначала вставьте ссылку на существующий чат, затем выберите: скопировать её или открыть вручную именно в этом браузере.</p>
+<h1>Monitor — проверка ссылки</h1>
+<p class="muted">Ничего не открывается автоматически. Ссылка на эту страницу уже есть ниже и её можно сразу скопировать в Chrome.</p>
 
 <section class="card">
-<label for="chatUrl">Ссылка на существующий чат ChatGPT</label>
-<input id="chatUrl" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://chatgpt.com/c/…">
-<div id="validation" class="status muted">Вставьте ссылку — полная версия сразу появится ниже.</div>
-<div id="fullUrl" class="url-view" aria-live="polite">Здесь будет показана полная ссылка.</div>
-<textarea id="copySource" readonly aria-label="Полная ссылка для ручного копирования" placeholder="Здесь будет полная ссылка для ручного копирования"></textarea>
+<h2>Ссылка на эту страницу</h2>
+<div id="pageUrlVisible" class="urlbox">https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/</div>
+<textarea id="pageUrlField" readonly>https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/</textarea>
 
 <div class="row">
-<button id="copyBtn" class="primary" type="button" disabled>Скопировать ссылку</button>
-<button id="selectBtn" type="button" disabled>Выделить целиком</button>
+<button id="copyPageBtn" class="primary" type="button">Скопировать ссылку</button>
+<button id="selectPageBtn" type="button">Выделить целиком</button>
 </div>
-<a id="openBtn" class="action disabled" href="#" target="_self" rel="noopener">Открыть чат в этом браузере</a>
-<div id="actionStatus" class="status muted">Никакого автоматического перехода нет.</div>
+
+<a class="action" href="https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/" target="_self" rel="noopener">Открыть эту страницу</a>
+<div id="pageStatus" class="status muted">Все три элемента выше активны сразу.</div>
 </section>
 
-<section class="card tiny">
-<div class="check"><strong>1.</strong> Полная ссылка должна быть видна целиком в сером блоке и в поле ниже.</div>
-<div class="check"><strong>2.</strong> «Скопировать ссылку» должна класть ровно эту ссылку в буфер.</div>
-<div class="check"><strong>3.</strong> «Открыть чат в этом браузере» срабатывает только по вашему нажатию.</div>
+<section class="card">
+<h2>Проверка кнопки</h2>
+<button id="clickTestBtn" type="button">Нажать — проверить клик</button>
+<div id="clickStatus" class="status muted">После нажатия здесь появится PASS.</div>
+</section>
+
+<section class="card">
+<h2>Отдельно: ссылка на конкретный чат</h2>
+<p class="small muted">Эту ссылку Monitor не может угадать сам. Когда она у нас будет сохранена в карточке чата, она будет показываться автоматически. Для ручного теста её можно вставить ниже.</p>
+<input id="chatInput" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://chatgpt.com/c/…">
+<div id="chatVisible" class="urlbox" style="margin-top:10px">Ссылка на чат пока не введена.</div>
+<textarea id="chatField" readonly placeholder="Полная ссылка на чат появится здесь"></textarea>
+<div class="row">
+<button id="copyChatBtn" type="button">Скопировать чат</button>
+<button id="selectChatBtn" type="button">Выделить чат</button>
+</div>
+<button id="openChatBtn" type="button">Открыть чат в этом браузере</button>
+<div id="chatStatus" class="status muted">Эти кнопки тоже активны всегда: если ссылки нет, они сообщат об этом, а не станут серыми.</div>
 </section>
 </main>
+
 <script>
 (function(){
 'use strict';
-const input=document.getElementById('chatUrl');
-const validation=document.getElementById('validation');
-const fullUrl=document.getElementById('fullUrl');
-const copySource=document.getElementById('copySource');
-const copyBtn=document.getElementById('copyBtn');
-const selectBtn=document.getElementById('selectBtn');
-const openBtn=document.getElementById('openBtn');
-const actionStatus=document.getElementById('actionStatus');
-let current='';
-function normalize(raw){
-  const v=String(raw||'').trim();
-  if(!v) return null;
+
+const PAGE_URL='https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/';
+const pageField=document.getElementById('pageUrlField');
+const pageStatus=document.getElementById('pageStatus');
+const clickStatus=document.getElementById('clickStatus');
+const chatInput=document.getElementById('chatInput');
+const chatVisible=document.getElementById('chatVisible');
+const chatField=document.getElementById('chatField');
+const chatStatus=document.getElementById('chatStatus');
+
+function selectAll(el){
+  el.focus();
+  el.select();
+  if (typeof el.setSelectionRange === 'function') el.setSelectionRange(0,el.value.length);
+}
+
+async function copyText(text,field,statusEl){
+  let ok=false;
   try{
-    const u=new URL(v);
-    const host=u.hostname.toLowerCase();
-    if(u.protocol!=='https:' || !['chatgpt.com','www.chatgpt.com','chat.openai.com'].includes(host)) return null;
-    return u.href;
-  }catch(e){return null;}
-}
-function setInvalid(message){
-  current=''; validation.className='status bad'; validation.textContent=message;
-  fullUrl.textContent=input.value.trim()||'Здесь будет показана полная ссылка.';
-  copySource.value=input.value.trim();
-  copyBtn.disabled=true; selectBtn.disabled=true; openBtn.classList.add('disabled'); openBtn.href='#';
-}
-function sync(){
-  const raw=input.value.trim();
-  if(!raw){
-    current=''; validation.className='status muted'; validation.textContent='Вставьте ссылку — полная версия сразу появится ниже.';
-    fullUrl.textContent='Здесь будет показана полная ссылка.'; copySource.value='';
-    copyBtn.disabled=true; selectBtn.disabled=true; openBtn.classList.add('disabled'); openBtn.href='#'; return;
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+      ok=true;
+    }
+  }catch(e){}
+  if(!ok){
+    selectAll(field);
+    try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
   }
-  const value=normalize(raw);
-  if(!value){setInvalid('Это не HTTPS-ссылка ChatGPT. Она всё равно показана ниже для проверки.');return;}
-  current=value; validation.className='status ok'; validation.textContent='PASS: ссылка распознана и готова.';
-  fullUrl.textContent=value; copySource.value=value;
-  copyBtn.disabled=false; selectBtn.disabled=false; openBtn.classList.remove('disabled'); openBtn.href=value;
-  actionStatus.className='status muted'; actionStatus.textContent='Никакого автоматического перехода нет.';
+  statusEl.className='status '+(ok?'ok':'bad');
+  statusEl.textContent=ok
+    ? 'PASS: ссылка скопирована.'
+    : 'Браузер запретил автокопирование. Ссылка выделена целиком — нажмите стандартное «Копировать».';
 }
-input.addEventListener('input',sync); input.addEventListener('change',sync);
-selectBtn.addEventListener('click',function(){
-  if(!current)return; copySource.focus(); copySource.select(); copySource.setSelectionRange(0,copySource.value.length);
-  actionStatus.className='status ok'; actionStatus.textContent='Ссылка выделена целиком.';
+
+document.getElementById('copyPageBtn').addEventListener('click',()=>copyText(PAGE_URL,pageField,pageStatus));
+document.getElementById('selectPageBtn').addEventListener('click',()=>{
+  selectAll(pageField); pageStatus.className='status ok'; pageStatus.textContent='PASS: ссылка выделена целиком.';
 });
-copyBtn.addEventListener('click',async function(){
-  if(!current)return;
-  let copied=false;
-  try{ if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(current);copied=true;} }catch(e){}
-  if(!copied){
-    copySource.focus(); copySource.select(); copySource.setSelectionRange(0,copySource.value.length);
-    try{copied=document.execCommand('copy');}catch(e){copied=false;}
+document.getElementById('clickTestBtn').addEventListener('click',()=>{
+  clickStatus.className='status ok'; clickStatus.textContent='PASS: кнопка нажалась.';
+});
+
+function currentChat(){
+  const v=chatInput.value.trim();
+  chatVisible.textContent=v || 'Ссылка на чат пока не введена.';
+  chatField.value=v;
+  return v;
+}
+chatInput.addEventListener('input',currentChat);
+chatInput.addEventListener('change',currentChat);
+
+document.getElementById('copyChatBtn').addEventListener('click',()=>{
+  const v=currentChat();
+  if(!v){chatStatus.className='status bad';chatStatus.textContent='Ссылки на чат пока нет. Кнопка работает, но копировать нечего.';return;}
+  copyText(v,chatField,chatStatus);
+});
+document.getElementById('selectChatBtn').addEventListener('click',()=>{
+  const v=currentChat();
+  if(!v){chatStatus.className='status bad';chatStatus.textContent='Ссылки на чат пока нет. Кнопка работает.';return;}
+  selectAll(chatField); chatStatus.className='status ok'; chatStatus.textContent='PASS: ссылка на чат выделена целиком.';
+});
+document.getElementById('openChatBtn').addEventListener('click',()=>{
+  const v=currentChat();
+  if(!v){chatStatus.className='status bad';chatStatus.textContent='Ссылки на чат пока нет. Кнопка работает.';return;}
+  let u;
+  try{u=new URL(v);}catch(e){chatStatus.className='status bad';chatStatus.textContent='Это невалидный URL.';return;}
+  if(u.protocol!=='https:' || !['chatgpt.com','www.chatgpt.com','chat.openai.com'].includes(u.hostname.toLowerCase())){
+    chatStatus.className='status bad';chatStatus.textContent='Нужна HTTPS-ссылка ChatGPT.';return;
   }
-  if(copied){ actionStatus.className='status ok'; actionStatus.textContent='PASS: ссылка скопирована в буфер.'; }
-  else{ actionStatus.className='status bad'; actionStatus.textContent='Автокопирование заблокировано браузером. Ссылка уже выделена целиком — используйте стандартное «Копировать».'; }
+  window.location.assign(u.href);
 });
 })();
 </script>
