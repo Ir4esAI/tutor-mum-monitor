@@ -3,142 +3,189 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Monitor — проверка ссылки</title>
+<title>Monitor → ChatGPT — тест переходов</title>
 <style>
-:root{color-scheme:light dark;--bg:#f4f4f6;--card:#fff;--text:#151515;--muted:#707078;--line:#d9d9df;--accent:#111;--ok:#15743a;--bad:#b42318}
-@media(prefers-color-scheme:dark){:root{--bg:#111113;--card:#1c1c1f;--text:#f6f6f7;--muted:#aaaab2;--line:#3a3a41;--accent:#fff;--ok:#86efac;--bad:#fca5a5}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif}
-main{max-width:720px;margin:auto;padding:20px 16px 44px}
-h1{font-size:24px;line-height:1.15;margin:6px 0 10px}
-h2{font-size:19px;margin:0 0 10px}
-p{margin:8px 0}.muted{color:var(--muted)}.small{font-size:13px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}
-.urlbox,textarea,input{width:100%;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--text);padding:12px}
-.urlbox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;user-select:text;-webkit-user-select:text}
-textarea{min-height:92px;resize:vertical;font:14px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere;word-break:break-all}
-input{font:inherit}
-button,a.action{display:block;width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-weight:700;text-align:center;text-decoration:none;margin-top:10px;cursor:pointer}
-button.primary,a.primary{background:var(--accent);color:var(--bg)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-@media(max-width:480px){.row{grid-template-columns:1fr}}
-.status{margin-top:10px;font-size:14px}.ok{color:var(--ok)}.bad{color:var(--bad)}
-hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+:root{color-scheme:light dark;--bg:#f4f4f6;--card:#fff;--text:#151515;--muted:#6f6f78;--line:#d9d9df;--accent:#111;--ok:#167443;--warn:#9a6700;--bad:#b42318}
+@media(prefers-color-scheme:dark){:root{--bg:#111113;--card:#1c1c1f;--text:#f6f6f7;--muted:#aaaab2;--line:#393940;--accent:#fff;--ok:#86efac;--warn:#fde68a;--bad:#fca5a5}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.46 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif}
+main{max-width:760px;margin:auto;padding:20px 16px 48px}h1{font-size:25px;line-height:1.15;margin:5px 0 10px}h2{font-size:19px;margin:0 0 10px}
+p{margin:8px 0}.muted{color:var(--muted)}.small{font-size:13px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}
+.step{padding:10px 0;border-top:1px solid var(--line)}.step:first-child{border-top:0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+input,textarea,button,a.action{font:inherit}
+input,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text)}
+textarea{min-height:82px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;overflow-wrap:anywhere;word-break:break-all}
+.urlbox{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;user-select:text;-webkit-user-select:text}
+button,a.action{display:block;width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-weight:700;text-align:center;text-decoration:none;margin-top:10px;cursor:pointer}
+.primary{background:var(--accent)!important;color:var(--bg)!important}.status{margin-top:10px;font-size:14px}.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.test{padding:14px 0;border-top:1px solid var(--line)}.test:first-of-type{border-top:0}.badge{display:inline-block;font-size:12px;padding:3px 8px;border-radius:999px;background:var(--bg);color:var(--muted);margin-bottom:6px}
+ul{padding-left:20px;margin:8px 0}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:520px){.result-grid{grid-template-columns:1fr}}
+select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit}
 </style>
 </head>
 <body>
 <main>
-<h1>Monitor — проверка ссылки</h1>
-<p class="muted">Ничего не открывается автоматически. Ссылка на эту страницу уже есть ниже и её можно сразу скопировать в Chrome.</p>
+<h1>Monitor → ChatGPT: тест трёх переходов</h1>
+<p class="muted">Цель — не проверить, что кнопка вообще нажимается. Цель — понять, какой способ из Monitor надёжно открывает <strong>тот же существующий рабочий чат</strong> и позволяет сразу продолжить диалог.</p>
 
 <section class="card">
-<h2>Ссылка на эту страницу</h2>
-<div id="pageUrlVisible" class="urlbox">https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/</div>
-<textarea id="pageUrlField" readonly>https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/</textarea>
+<h2>Что сделать до теста</h2>
+<div class="step"><strong>0.</strong> Откройте эту тестовую страницу вручную именно в <strong>Chrome</strong>. Если вы сейчас видите её во встроенном окне ChatGPT, скопируйте адрес ниже и вставьте его в Chrome.</div>
+<div class="urlbox" id="testerUrl">https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/</div>
+<button id="copyTester" type="button">Скопировать адрес тестовой страницы</button>
+<div id="testerStatus" class="status muted"></div>
 
-<div class="row">
-<button id="copyPageBtn" class="primary" type="button">Скопировать ссылку</button>
-<button id="selectPageBtn" type="button">Выделить целиком</button>
-</div>
-
-<a class="action" href="https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/" target="_self" rel="noopener">Открыть эту страницу</a>
-<div id="pageStatus" class="status muted">Все три элемента выше активны сразу.</div>
+<div class="step"><strong>1.</strong> В Chrome откройте <strong>любой существующий чат</strong>, который уже находится внутри какого-нибудь вашего Project и в котором есть история.</div>
+<div class="step"><strong>2.</strong> Скопируйте <strong>адрес из адресной строки браузера</strong>. Нужна приватная ссылка самого чата, обычно вида <code>https://chatgpt.com/c/…</code>.</div>
+<div class="step"><strong>Не используйте кнопку «Поделиться».</strong> Она создаёт другой тип ссылки и не проверяет нужный нам сценарий — возврат именно в исходный рабочий чат.</div>
+<div class="step"><strong>3.</strong> Вернитесь на эту страницу в Chrome и вставьте адрес чата ниже.</div>
 </section>
 
 <section class="card">
-<h2>Проверка кнопки</h2>
-<button id="clickTestBtn" type="button">Нажать — проверить клик</button>
-<div id="clickStatus" class="status muted">После нажатия здесь появится PASS.</div>
+<h2>Ссылка на тестовый чат</h2>
+<input id="chatUrl" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://chatgpt.com/c/…">
+<div id="chatPreview" class="urlbox" style="margin-top:10px">Здесь появится полная ссылка на чат.</div>
+<textarea id="chatCopy" readonly placeholder="Полная ссылка также появится здесь для ручного копирования"></textarea>
+<button id="copyChat" type="button">Скопировать ссылку на чат</button>
+<div id="chatStatus" class="status muted">После вставки ссылки три теста ниже будут использовать именно её.</div>
 </section>
 
 <section class="card">
-<h2>Отдельно: ссылка на конкретный чат</h2>
-<p class="small muted">Эту ссылку Monitor не может угадать сам. Когда она у нас будет сохранена в карточке чата, она будет показываться автоматически. Для ручного теста её можно вставить ниже.</p>
-<input id="chatInput" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://chatgpt.com/c/…">
-<div id="chatVisible" class="urlbox" style="margin-top:10px">Ссылка на чат пока не введена.</div>
-<textarea id="chatField" readonly placeholder="Полная ссылка на чат появится здесь"></textarea>
-<div class="row">
-<button id="copyChatBtn" type="button">Скопировать чат</button>
-<button id="selectChatBtn" type="button">Выделить чат</button>
+<h2>Три варианта перехода</h2>
+
+<div class="test">
+<div class="badge">TEST A — обычная ссылка / этот же контекст</div>
+<p><strong>Что проверяет:</strong> самый простой вариант для будущего Monitor — обычная HTML-ссылка, открывающая чат в текущем окне.</p>
+<a id="testA" class="action primary" href="#" target="_self" rel="noopener">A — открыть обычной ссылкой</a>
+<p class="small muted">После перехода проверьте: тот ли это чат, вся ли история на месте, можно ли сразу писать, остался ли чат внутри нужного Project. Затем вернитесь назад к тесту.</p>
 </div>
-<button id="openChatBtn" type="button">Открыть чат в этом браузере</button>
-<div id="chatStatus" class="status muted">Эти кнопки тоже активны всегда: если ссылки нет, они сообщат об этом, а не станут серыми.</div>
+
+<div class="test">
+<div class="badge">TEST B — обычная ссылка / отдельно</div>
+<p><strong>Что проверяет:</strong> отличается ли поведение Chrome/iOS, если открыть тот же URL в новом окне/вкладке.</p>
+<a id="testB" class="action" href="#" target="_blank" rel="noopener noreferrer">B — открыть отдельно</a>
+<p class="small muted">Снова проверьте тот же набор: исходный чат, история, Project, возможность продолжить разговор.</p>
+</div>
+
+<div class="test">
+<div class="badge">TEST C — программная навигация</div>
+<p><strong>Что проверяет:</strong> переход через JavaScript <code>window.location.assign()</code>. Это запасной механизм, если обычные ссылки ведут себя на iPhone неудобно.</p>
+<button id="testC" type="button">C — открыть через window.location</button>
+<p class="small muted">Если A работает хорошо, C нам, скорее всего, вообще не понадобится.</p>
+</div>
+
+<div id="testStatus" class="status muted">Если ссылка ещё не вставлена, нажатие на A/B/C не уведёт со страницы, а объяснит, чего не хватает.</div>
+</section>
+
+<section class="card">
+<h2>Что считать PASS</h2>
+<ul>
+<li>Открылся <strong>именно тот существующий чат</strong>, URL которого вы вставили.</li>
+<li>Старая история сообщений на месте.</li>
+<li>Можно сразу отправить новое сообщение в этот же диалог.</li>
+<li>Чат по-прежнему относится к нужному Project.</li>
+<li>Повторный переход тем же способом снова приводит в тот же чат.</li>
+</ul>
+<p class="small muted">Отдельно запомните, где открылся чат: в Chrome, в приложении ChatGPT или система перекинула вас в Safari. Это и есть одна из главных вещей, которые мы сейчас измеряем.</p>
+</section>
+
+<section class="card">
+<h2>Быстро записать результат</h2>
+<div class="result-grid">
+<select id="whichTest">
+<option>A — обычная ссылка</option>
+<option>B — отдельно</option>
+<option>C — window.location</option>
+</select>
+<select id="whereOpened">
+<option>Открылось в Chrome</option>
+<option>Открылось в ChatGPT app</option>
+<option>Перекинуло в Safari</option>
+<option>Не открылось / ошибка</option>
+</select>
+</div>
+<textarea id="notes" style="margin-top:8px" placeholder="Например: открылся нужный чат, история на месте, писать можно, Project сохранился."></textarea>
+<button id="copyResult" type="button">Скопировать результат для отправки сюда</button>
+<div id="resultStatus" class="status muted"></div>
 </section>
 </main>
 
 <script>
 (function(){
 'use strict';
-
-const PAGE_URL='https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/';
-const pageField=document.getElementById('pageUrlField');
-const pageStatus=document.getElementById('pageStatus');
-const clickStatus=document.getElementById('clickStatus');
-const chatInput=document.getElementById('chatInput');
-const chatVisible=document.getElementById('chatVisible');
-const chatField=document.getElementById('chatField');
+const TESTER='https://ir4esai.github.io/tutor-mum-monitor/chat-link-test/';
+const chatUrl=document.getElementById('chatUrl');
+const chatPreview=document.getElementById('chatPreview');
+const chatCopy=document.getElementById('chatCopy');
 const chatStatus=document.getElementById('chatStatus');
+const testStatus=document.getElementById('testStatus');
+const a=document.getElementById('testA');
+const b=document.getElementById('testB');
+let current='';
 
-function selectAll(el){
-  el.focus();
-  el.select();
-  if (typeof el.setSelectionRange === 'function') el.setSelectionRange(0,el.value.length);
-}
-
-async function copyText(text,field,statusEl){
-  let ok=false;
+function parseChat(raw){
+  const v=String(raw||'').trim();
+  if(!v)return null;
   try{
-    if(navigator.clipboard && window.isSecureContext){
-      await navigator.clipboard.writeText(text);
-      ok=true;
-    }
-  }catch(e){}
-  if(!ok){
-    selectAll(field);
-    try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
-  }
-  statusEl.className='status '+(ok?'ok':'bad');
-  statusEl.textContent=ok
-    ? 'PASS: ссылка скопирована.'
-    : 'Браузер запретил автокопирование. Ссылка выделена целиком — нажмите стандартное «Копировать».';
+    const u=new URL(v);
+    const h=u.hostname.toLowerCase();
+    if(u.protocol!=='https:' || !['chatgpt.com','www.chatgpt.com','chat.openai.com'].includes(h)) return null;
+    return u.href;
+  }catch(e){return null;}
 }
-
-document.getElementById('copyPageBtn').addEventListener('click',()=>copyText(PAGE_URL,pageField,pageStatus));
-document.getElementById('selectPageBtn').addEventListener('click',()=>{
-  selectAll(pageField); pageStatus.className='status ok'; pageStatus.textContent='PASS: ссылка выделена целиком.';
-});
-document.getElementById('clickTestBtn').addEventListener('click',()=>{
-  clickStatus.className='status ok'; clickStatus.textContent='PASS: кнопка нажалась.';
-});
-
-function currentChat(){
-  const v=chatInput.value.trim();
-  chatVisible.textContent=v || 'Ссылка на чат пока не введена.';
-  chatField.value=v;
-  return v;
+function sync(){
+  const raw=chatUrl.value.trim();
+  const valid=parseChat(raw);
+  current=valid||'';
+  chatPreview.textContent=raw||'Здесь появится полная ссылка на чат.';
+  chatCopy.value=raw;
+  a.href=current||'#';
+  b.href=current||'#';
+  chatStatus.className='status '+(current?'ok':raw?'bad':'muted');
+  chatStatus.textContent=current?'PASS: ссылка распознана. A/B/C готовы к тесту.':raw?'Это не распознано как HTTPS-ссылка ChatGPT.':'После вставки ссылки три теста ниже будут использовать именно её.';
 }
-chatInput.addEventListener('input',currentChat);
-chatInput.addEventListener('change',currentChat);
+chatUrl.addEventListener('input',sync); chatUrl.addEventListener('change',sync);
 
-document.getElementById('copyChatBtn').addEventListener('click',()=>{
-  const v=currentChat();
-  if(!v){chatStatus.className='status bad';chatStatus.textContent='Ссылки на чат пока нет. Кнопка работает, но копировать нечего.';return;}
-  copyText(v,chatField,chatStatus);
-});
-document.getElementById('selectChatBtn').addEventListener('click',()=>{
-  const v=currentChat();
-  if(!v){chatStatus.className='status bad';chatStatus.textContent='Ссылки на чат пока нет. Кнопка работает.';return;}
-  selectAll(chatField); chatStatus.className='status ok'; chatStatus.textContent='PASS: ссылка на чат выделена целиком.';
-});
-document.getElementById('openChatBtn').addEventListener('click',()=>{
-  const v=currentChat();
-  if(!v){chatStatus.className='status bad';chatStatus.textContent='Ссылки на чат пока нет. Кнопка работает.';return;}
-  let u;
-  try{u=new URL(v);}catch(e){chatStatus.className='status bad';chatStatus.textContent='Это невалидный URL.';return;}
-  if(u.protocol!=='https:' || !['chatgpt.com','www.chatgpt.com','chat.openai.com'].includes(u.hostname.toLowerCase())){
-    chatStatus.className='status bad';chatStatus.textContent='Нужна HTTPS-ссылка ChatGPT.';return;
+async function copy(text,field,status){
+  let ok=false;
+  try{if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(text);ok=true;}}catch(e){}
+  if(!ok && field){
+    field.focus(); field.select(); if(field.setSelectionRange) field.setSelectionRange(0,field.value.length);
+    try{ok=document.execCommand('copy');}catch(e){}
   }
-  window.location.assign(u.href);
+  status.className='status '+(ok?'ok':'bad');
+  status.textContent=ok?'PASS: скопировано.':'Автокопирование заблокировано. Текст выделен — используйте стандартное «Копировать».';
+}
+document.getElementById('copyTester').addEventListener('click',()=>copy(TESTER,null,document.getElementById('testerStatus')));
+document.getElementById('copyChat').addEventListener('click',()=>{
+  const val=chatUrl.value.trim();
+  if(!val){chatStatus.className='status bad';chatStatus.textContent='Сначала вставьте адрес существующего чата из адресной строки Chrome.';return;}
+  copy(val,chatCopy,chatStatus);
+});
+
+function noUrl(ev){
+  if(current)return false;
+  ev.preventDefault();
+  testStatus.className='status bad';
+  testStatus.textContent='Сначала вставьте прямой URL существующего чата из адресной строки браузера. Не ссылку «Поделиться».';
+  chatUrl.focus();
+  return true;
+}
+a.addEventListener('click',noUrl);
+b.addEventListener('click',noUrl);
+document.getElementById('testC').addEventListener('click',function(){
+  if(!current){
+    testStatus.className='status bad';
+    testStatus.textContent='Сначала вставьте прямой URL существующего чата из адресной строки браузера. Не ссылку «Поделиться».';
+    chatUrl.focus();
+    return;
+  }
+  window.location.assign(current);
+});
+document.getElementById('copyResult').addEventListener('click',function(){
+  const txt='MONITOR TRANSITION TEST\n'+document.getElementById('whichTest').value+'\n'+document.getElementById('whereOpened').value+'\n'+(document.getElementById('notes').value.trim()||'Без дополнительных примечаний');
+  const temp=document.createElement('textarea');temp.value=txt;document.body.appendChild(temp);
+  copy(txt,temp,document.getElementById('resultStatus')).finally(()=>temp.remove());
 });
 })();
 </script>
