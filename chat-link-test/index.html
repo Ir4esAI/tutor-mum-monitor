@@ -74,7 +74,14 @@ select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);b
 <p class="small muted">Если A работает хорошо, C нам, скорее всего, вообще не понадобится.</p>
 </div>
 
-<div id="testStatus" class="status muted">Если ссылка ещё не вставлена, нажатие на A/B/C не уведёт со страницы, а объяснит, чего не хватает.</div>
+<div class="test">
+<div class="badge">TEST D — принудительно открыть в Chrome на iPhone</div>
+<p><strong>Что проверяет:</strong> Chrome-specific URL scheme. Вместо обычного <code>https://…</code> Monitor передаст тот же адрес как <code>googlechromes://…</code>, чтобы iOS запустила именно Chrome, а не ChatGPT app.</p>
+<button id="testD" type="button">D — открыть принудительно в Chrome</button>
+<p class="small muted">Это iPhone/iPad-сценарий. Chrome может открыть адрес в новой вкладке — нам сейчас важно проверить, что он остаётся в Chrome, сохраняет авторизацию и открывает тот же чат.</p>
+</div>
+
+<div id="testStatus" class="status muted">Если ссылка ещё не вставлена, A/B/C/D останутся на этой странице и объяснят, чего не хватает.</div>
 </section>
 
 <section class="card">
@@ -96,6 +103,7 @@ select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);b
 <option>A — обычная ссылка</option>
 <option>B — отдельно</option>
 <option>C — window.location</option>
+<option>D — принудительно Chrome</option>
 </select>
 <select id="whereOpened">
 <option>Открылось в Chrome</option>
@@ -181,6 +189,17 @@ document.getElementById('testC').addEventListener('click',function(){
     return;
   }
   window.location.assign(current);
+});
+
+document.getElementById('testD').addEventListener('click',function(){
+  if(!current){
+    testStatus.className='status bad';
+    testStatus.textContent='Сначала вставьте прямой URL существующего чата из адресной строки браузера. Не ссылку «Поделиться».';
+    chatUrl.focus();
+    return;
+  }
+  const chromeUrl=current.replace(/^https:\/\//i,'googlechromes://').replace(/^http:\/\//i,'googlechrome://');
+  window.location.href=chromeUrl;
 });
 document.getElementById('copyResult').addEventListener('click',function(){
   const txt='MONITOR TRANSITION TEST\n'+document.getElementById('whichTest').value+'\n'+document.getElementById('whereOpened').value+'\n'+(document.getElementById('notes').value.trim()||'Без дополнительных примечаний');
